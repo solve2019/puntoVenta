@@ -1,0 +1,1 @@
+com.sun.xml.internal.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: El sello del emisor es inválido Please see the server log to find more detail regarding exact cause of the failure.
