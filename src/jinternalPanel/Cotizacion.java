@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jinternalPanel;
 
 import ClasesDAO.Ticket;
 import ClasesDAO.accesoSistema;
 import ClasesDAO.cobrar_ventafinal;
 import com.mysql.jdbc.PreparedStatement;
+import com.toedter.calendar.JDateChooser;
 import conexion.conex;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
@@ -18,7 +18,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import jdialog.Cobrar_venta;
@@ -36,8 +39,8 @@ import jdialog.catalogo_productosCoti;
  *
  * @author desarrollo8
  */
-public class Cotizacion extends javax.swing.JInternalFrame implements KeyListener {    
-   
+public class Cotizacion extends javax.swing.JInternalFrame implements KeyListener {
+
     /**
      * Creates new form Ventas
      */
@@ -48,7 +51,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         jtproductoscoti.getColumnModel().getColumn(6).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setWidth(0);
         cargar_clientes();
-        
+
     }
 
     /**
@@ -74,6 +77,14 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         jLabel4 = new javax.swing.JLabel();
         jcclientecoti = new javax.swing.JComboBox<>();
         jButton11 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        comboCliente = new javax.swing.JComboBox<>();
+        txtCostoEnvio = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        comboFactura = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        dateFechaPago = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtproductoscoti = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -161,7 +172,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(411, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,6 +213,46 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             }
         });
 
+        jLabel4.setVisible(false);
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel9.setText("Costo envio:");
+
+        jLabel4.setVisible(false);
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel10.setText("Cliente:");
+
+        jcclientecoti.setVisible(false);
+        comboCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona.." }));
+        comboCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboClienteActionPerformed(evt);
+            }
+        });
+
+        txtCostoEnvio.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtCostoEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCostoEnvioActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setVisible(false);
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel11.setText("Factura:");
+
+        jctipoventacoti.setVisible(false);
+        comboFactura.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        comboFactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona..", "Si", "No" }));
+
+        jLabel4.setVisible(false);
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel12.setText("Fecha pago:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -209,36 +260,70 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtproductocoti, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                    .addComponent(jctipoventacoti, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcclientecoti, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtproductocoti, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCostoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateFechaPago, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel4)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jcclientecoti, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jctipoventacoti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jctipoventacoti))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(txtCostoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
+                        .addComponent(comboFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12)
+                        .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jctipoventacoti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addComponent(dateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(jButton11)
                     .addComponent(jcclientecoti)
-                    .addComponent(jButton11))
+                    .addComponent(jLabel4))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,7 +429,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jltotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -363,7 +448,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jltotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -384,15 +469,15 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(!txtproductocoti.getText().trim().equals("")){
+        if (!txtproductocoti.getText().trim().equals("")) {
             cargar_producto(txtproductocoti.getText().trim());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtproductocotiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproductocotiKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){  
-            if(!txtproductocoti.getText().trim().equals("")){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!txtproductocoti.getText().trim().equals("")) {
                 cargar_producto(txtproductocoti.getText().trim());
             }
         }
@@ -400,25 +485,24 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        
-         DefaultTableModel modelo=(DefaultTableModel) jtproductoscoti.getModel();  
-          int fila=-1;
-          fila=jtproductoscoti.getSelectedRow();
-          if(fila!=-1){
-              //int opc=JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar?","Alerta",JOptionPane.INFORMATION_MESSAGE);
-              //if(opc==JOptionPane.OK_OPTION){
-                modelo.removeRow(fila);                
-                //for(int i=fila; i<jtproductos.getRowCount(); i++){
-                //    jtproductos.setValueAt(""+(i+1), i, 0);
-                //}
-              //}  
-              
-          }else{
-            JOptionPane.showMessageDialog(null, "Seleccionar un producto de la tabla.","Alerta",JOptionPane.ERROR_MESSAGE);
-         }
-         cargar_informacion();
-         ponerfocoenventa();
+
+        DefaultTableModel modelo = (DefaultTableModel) jtproductoscoti.getModel();
+        int fila = -1;
+        fila = jtproductoscoti.getSelectedRow();
+        if (fila != -1) {
+            //int opc=JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar?","Alerta",JOptionPane.INFORMATION_MESSAGE);
+            //if(opc==JOptionPane.OK_OPTION){
+            modelo.removeRow(fila);
+            //for(int i=fila; i<jtproductos.getRowCount(); i++){
+            //    jtproductos.setValueAt(""+(i+1), i, 0);
+            //}
+            //}  
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccionar un producto de la tabla.", "Alerta", JOptionPane.ERROR_MESSAGE);
+        }
+        cargar_informacion();
+        ponerfocoenventa();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -448,34 +532,34 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             dialog.show();             
             //cobrar_venta();
         }
-        */
+         */
         cotizacion_venta();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:        
-        String folio="0";
+        String folio = "0";
         conex cn = new conex();
-	String sql="SELECT parametro from to_parametros where clave='FOLIO'";
-	System.out.println(sql);
-	PreparedStatement pstm100;
-	try {
-		pstm100 = (PreparedStatement) cn.getConnection().prepareStatement(sql);
-		ResultSet rs100 = (ResultSet) pstm100.executeQuery();
-	    while (rs100.next()) {	    	
-	    	folio=rs100.getString("parametro");	    		    			   
-		}
-	    rs100.close();
+        String sql = "SELECT parametro from to_parametros where clave='FOLIO'";
+        System.out.println(sql);
+        PreparedStatement pstm100;
+        try {
+            pstm100 = (PreparedStatement) cn.getConnection().prepareStatement(sql);
+            ResultSet rs100 = (ResultSet) pstm100.executeQuery();
+            while (rs100.next()) {
+                folio = rs100.getString("parametro");
+            }
+            rs100.close();
             pstm100.close();
             cn.desconectar();
-	} catch (SQLException e2) {
-		// TODO Auto-generated catch block
-		e2.printStackTrace();
-	}
-        int folios=Integer.parseInt(folio);
-        folios=folios-1;
-        
-        Ticket imprime=new Ticket();
+        } catch (SQLException e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
+        int folios = Integer.parseInt(folio);
+        folios = folios - 1;
+
+        Ticket imprime = new Ticket();
         imprime.ReImprimirDocumento(folio);
         ponerfocoenventa();
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -483,10 +567,10 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         Frame f = JOptionPane.getFrameForComponent(this);
-        ReporteDiarioVentasDevoluciones reportediario=new ReporteDiarioVentasDevoluciones(f,true);
+        ReporteDiarioVentasDevoluciones reportediario = new ReporteDiarioVentasDevoluciones(f, true);
         reportediario.show();
-        
-        
+
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -499,290 +583,354 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         Frame f = JOptionPane.getFrameForComponent(this);
         catalogo_Clientes dialog = new catalogo_Clientes(f, true);
         dialog.show();
-        
+
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jtproductoscotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtproductoscotiMouseClicked
         // TODO add your handling code here:
-        
+
         if (evt.getClickCount() == 2) {
-             String producto=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 1).toString();
-             String precio=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 2).toString();
-             String cantidad=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 3).toString();             
-             String existencia=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 5).toString();
-             String descuento=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 7).toString();
-             String id=jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 6).toString();
-             int fila=jtproductoscoti.getSelectedRow();
-             Frame f = JOptionPane.getFrameForComponent(this);
-             EditarCantidadCotizacion dialog = new EditarCantidadCotizacion(f,true,fila,producto,cantidad,precio,existencia,descuento,id);
-             dialog.show();
-         }
-        
+            String producto = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 1).toString();
+            String precio = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 2).toString();
+            String cantidad = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 3).toString();
+            String existencia = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 5).toString();
+            String descuento = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 7).toString();
+            String id = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 6).toString();
+            int fila = jtproductoscoti.getSelectedRow();
+            Frame f = JOptionPane.getFrameForComponent(this);
+            EditarCantidadCotizacion dialog = new EditarCantidadCotizacion(f, true, fila, producto, cantidad, precio, existencia, descuento, id);
+            dialog.show();
+        }
+
     }//GEN-LAST:event_jtproductoscotiMouseClicked
 
-     public static void vaciartabla(){
-        DefaultTableModel modelo=(DefaultTableModel) jtproductoscoti.getModel();         
-            for (int i = 0; i < jtproductoscoti.getRowCount(); i++) {
-                modelo.removeRow(i);
-                i-=1;
-            } 
-            
-    }  
-     
-     public static void cargar_cliente(String cliente){
-         jcclientecoti.setSelectedItem(cliente);
-     }
-    public static void cargar_producto(String producto_code){
-        DefaultTableModel modelo=(DefaultTableModel) jtproductoscoti.getModel();          
-        String codigo_barras=producto_code;
-        conex con=new conex();          
-        ResultSet rs = null;       
-        String myQuery = "SELECT * FROM tc_productos WHERE (codigo_barras='"+codigo_barras+"') and estatus=1";
-        System.out.println(""+myQuery);
-        try {  
+    private void comboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboClienteActionPerformed
+
+    private void txtCostoEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCostoEnvioActionPerformed
+
+    public static void vaciartabla() {
+        DefaultTableModel modelo = (DefaultTableModel) jtproductoscoti.getModel();
+        for (int i = 0; i < jtproductoscoti.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i -= 1;
+        }
+
+    }
+
+    public static void cargar_cliente(String cliente) {
+        jcclientecoti.setSelectedItem(cliente);
+    }
+
+    public static void cargar_producto(String producto_code) {
+        DefaultTableModel modelo = (DefaultTableModel) jtproductoscoti.getModel();
+        String codigo_barras = producto_code;
+        conex con = new conex();
+        ResultSet rs = null;
+        String myQuery = "SELECT * FROM tc_productos WHERE (codigo_barras='" + codigo_barras + "') and estatus=1";
+        System.out.println("" + myQuery);
+        try {
             Statement st = con.getConnection().createStatement();
             rs = st.executeQuery(myQuery);
-            float precio=0;
-            String codigobarra="",producto="";
-            int existencia=0;
-            String id="";
-            boolean existe=false;
-            if(rs.next()) {                 
-                precio=rs.getFloat("precio_venta");
-                codigobarra=rs.getString("codigo_barras");
-                producto=rs.getString("nombre_producto");
-                existencia=rs.getInt("existencia");
-                id=rs.getString("idproducto");
-                existe=true;
+            float precio = 0;
+            String codigobarra = "", producto = "";
+            int existencia = 0;
+            String id = "";
+            boolean existe = false;
+            if (rs.next()) {
+                precio = rs.getFloat("precio_venta");
+                codigobarra = rs.getString("codigo_barras");
+                producto = rs.getString("nombre_producto");
+                existencia = rs.getInt("existencia");
+                id = rs.getString("idproducto");
+                existe = true;
                 //modelo.addRow(new Object[]{rs.getString("codigo_barras"),rs.getString("nombre_producto"),rs.getString("precio_venta"),"1","10",rs.getString("existencia")});
             }
-            rs.close(); 
+            rs.close();
             st.close();
-            con.desconectar();   
-            
-            if(existe){
-                boolean existe_tabla_temp=false;
-                for(int fila=0; fila<jtproductoscoti.getRowCount(); fila++){
-                    String barcode=jtproductoscoti.getValueAt(fila, 0).toString().trim();                 
-                    float precio_unitario=Float.parseFloat(jtproductoscoti.getValueAt(fila, 2).toString().trim());
-                    int cantidad=Integer.parseInt(jtproductoscoti.getValueAt(fila, 3).toString().trim());                                  
-                    int existencia_total=Integer.parseInt(jtproductoscoti.getValueAt(fila, 5).toString().trim());
-                    String id_prod=jtproductoscoti.getValueAt(fila, 6).toString().trim();                 
-                    if(id_prod.equals(id)){                                                            
+            con.desconectar();
+
+            if (existe) {
+                boolean existe_tabla_temp = false;
+                for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
+                    String barcode = jtproductoscoti.getValueAt(fila, 0).toString().trim();
+                    float precio_unitario = Float.parseFloat(jtproductoscoti.getValueAt(fila, 2).toString().trim());
+                    int cantidad = Integer.parseInt(jtproductoscoti.getValueAt(fila, 3).toString().trim());
+                    int existencia_total = Integer.parseInt(jtproductoscoti.getValueAt(fila, 5).toString().trim());
+                    String id_prod = jtproductoscoti.getValueAt(fila, 6).toString().trim();
+                    if (id_prod.equals(id)) {
                         cantidad++;
-                        float total_final=precio_unitario*cantidad;                     
-                        existencia_total=existencia_total-1;
-                        jtproductoscoti.setValueAt(cantidad, fila, 3); 
-                        jtproductoscoti.setValueAt(total_final, fila, 4);   
-                        jtproductoscoti.setValueAt(existencia_total, fila, 5);  
+                        float total_final = precio_unitario * cantidad;
+                        existencia_total = existencia_total - 1;
+                        jtproductoscoti.setValueAt(cantidad, fila, 3);
+                        jtproductoscoti.setValueAt(total_final, fila, 4);
+                        jtproductoscoti.setValueAt(existencia_total, fila, 5);
                         System.out.println("MAS DE UN REGISTRO PERO YA ESTA EN TABLA");
-                        existe_tabla_temp=true;
+                        existe_tabla_temp = true;
                     }/*else{//es nuevo y se agrega    
                        System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
                        modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
-                    }*/                 
+                    }*/
                 }
 
-                if(existe_tabla_temp==false && jtproductoscoti.getRowCount()>0){
-                       System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
-                       modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1,id,"0"});
+                if (existe_tabla_temp == false && jtproductoscoti.getRowCount() > 0) {
+                    System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
+                    modelo.addRow(new Object[]{codigobarra, producto, precio + "", "1", precio + "", existencia - 1, id, "0"});
                 }
-                
-                if(jtproductoscoti.getRowCount()<=0){//es el primer registro
-                   System.out.println("PRIMER REGISTRO");
-                   modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1,id,"0"});
+
+                if (jtproductoscoti.getRowCount() <= 0) {//es el primer registro
+                    System.out.println("PRIMER REGISTRO");
+                    modelo.addRow(new Object[]{codigobarra, producto, precio + "", "1", precio + "", existencia - 1, id, "0"});
                 }
             }
-             
+
         } catch (SQLException ex) {
         }
-        
+
         jtproductoscoti.getColumnModel().getColumn(6).setMaxWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setMinWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setWidth(0);
-        
+
         jtproductoscoti.getColumnModel().getColumn(5).setMaxWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setMinWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setWidth(0);
-        
+
         txtproductocoti.setText("");
         cargar_informacion();
         txtproductocoti.requestFocus();
     }
-    
-    
-    
-    public static void cargar_productobusqueda(String idprods){
-        DefaultTableModel modelo=(DefaultTableModel) jtproductoscoti.getModel();          
-        String codigo_barras=idprods;
-        conex con=new conex();          
-        ResultSet rs = null;       
-        String myQuery = "SELECT * FROM tc_productos WHERE idproducto='"+codigo_barras+"' and estatus=1";
-        System.out.println(""+myQuery);
-        try {  
+
+    public static void cargar_productobusqueda(String idprods) {
+        DefaultTableModel modelo = (DefaultTableModel) jtproductoscoti.getModel();
+        String codigo_barras = idprods;
+        conex con = new conex();
+        ResultSet rs = null;
+        String myQuery = "SELECT * FROM tc_productos WHERE idproducto='" + codigo_barras + "' and estatus=1";
+        System.out.println("" + myQuery);
+        try {
             Statement st = con.getConnection().createStatement();
             rs = st.executeQuery(myQuery);
-            float precio=0;
-            String codigobarra="",producto="";
-            int existencia=0;
-            String id="";
-            boolean existe=false;
-            if(rs.next()) {                 
-                precio=rs.getFloat("precio_venta");
-                codigobarra=rs.getString("codigo_barras");
-                producto=rs.getString("nombre_producto");
-                existencia=rs.getInt("existencia");
-                id=rs.getString("idproducto");
-                existe=true;
+            float precio = 0;
+            String codigobarra = "", producto = "";
+            int existencia = 0;
+            String id = "";
+            boolean existe = false;
+            if (rs.next()) {
+                precio = rs.getFloat("precio_venta");
+                codigobarra = rs.getString("codigo_barras");
+                producto = rs.getString("nombre_producto");
+                existencia = rs.getInt("existencia");
+                id = rs.getString("idproducto");
+                existe = true;
                 //modelo.addRow(new Object[]{rs.getString("codigo_barras"),rs.getString("nombre_producto"),rs.getString("precio_venta"),"1","10",rs.getString("existencia")});
             }
-            rs.close(); 
+            rs.close();
             st.close();
-            con.desconectar();   
-            
-            if(existe){
-                boolean existe_tabla_temp=false;
-                for(int fila=0; fila<jtproductoscoti.getRowCount(); fila++){
-                    String barcode=jtproductoscoti.getValueAt(fila, 0).toString().trim();                 
-                    float precio_unitario=Float.parseFloat(jtproductoscoti.getValueAt(fila, 2).toString().trim());
-                    int cantidad=Integer.parseInt(jtproductoscoti.getValueAt(fila, 3).toString().trim());                                  
-                    int existencia_total=Integer.parseInt(jtproductoscoti.getValueAt(fila, 5).toString().trim());
-                    String id_prod=jtproductoscoti.getValueAt(fila, 6).toString().trim();                 
-                    if(id_prod.equals(id)){
+            con.desconectar();
+
+            if (existe) {
+                boolean existe_tabla_temp = false;
+                for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
+                    String barcode = jtproductoscoti.getValueAt(fila, 0).toString().trim();
+                    float precio_unitario = Float.parseFloat(jtproductoscoti.getValueAt(fila, 2).toString().trim());
+                    int cantidad = Integer.parseInt(jtproductoscoti.getValueAt(fila, 3).toString().trim());
+                    int existencia_total = Integer.parseInt(jtproductoscoti.getValueAt(fila, 5).toString().trim());
+                    String id_prod = jtproductoscoti.getValueAt(fila, 6).toString().trim();
+                    if (id_prod.equals(id)) {
                         cantidad++;
-                        float total_final=precio_unitario*cantidad;                     
-                        existencia_total=existencia_total-1;
-                        jtproductoscoti.setValueAt(cantidad, fila, 3); 
-                        jtproductoscoti.setValueAt(total_final, fila, 4);   
-                        jtproductoscoti.setValueAt(existencia_total, fila, 5);  
+                        float total_final = precio_unitario * cantidad;
+                        existencia_total = existencia_total - 1;
+                        jtproductoscoti.setValueAt(cantidad, fila, 3);
+                        jtproductoscoti.setValueAt(total_final, fila, 4);
+                        jtproductoscoti.setValueAt(existencia_total, fila, 5);
                         System.out.println("MAS DE UN REGISTRO PERO YA ESTA EN TABLA");
-                        existe_tabla_temp=true;
+                        existe_tabla_temp = true;
                     }/*else{//es nuevo y se agrega    
                        System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
                        modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
-                    }*/                 
+                    }*/
                 }
 
-                if(existe_tabla_temp==false && jtproductoscoti.getRowCount()>0){
-                       System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
-                       modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1,id,"0"});
+                if (existe_tabla_temp == false && jtproductoscoti.getRowCount() > 0) {
+                    System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
+                    modelo.addRow(new Object[]{codigobarra, producto, precio + "", "1", precio + "", existencia - 1, id, "0"});
                 }
-                
-                if(jtproductoscoti.getRowCount()<=0){//es el primer registro
-                   System.out.println("PRIMER REGISTRO");
-                   modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1,id,"0"});
+
+                if (jtproductoscoti.getRowCount() <= 0) {//es el primer registro
+                    System.out.println("PRIMER REGISTRO");
+                    modelo.addRow(new Object[]{codigobarra, producto, precio + "", "1", precio + "", existencia - 1, id, "0"});
                 }
             }
-             
+
         } catch (SQLException ex) {
         }
-        
+
         jtproductoscoti.getColumnModel().getColumn(6).setMaxWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setMinWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setWidth(0);
-        
+
         jtproductoscoti.getColumnModel().getColumn(5).setMaxWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setMinWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(5).setWidth(0);
-        
+
         txtproductocoti.setText("");
         cargar_informacion();
         txtproductocoti.requestFocus();
     }
-    
-    
-    public static void cargar_informacion(){
-       float total_valor=0;
-       int total=0;
-       for(int fila=0; fila<jtproductoscoti.getRowCount(); fila++){
-               
-                total_valor=total_valor+Float.parseFloat(jtproductoscoti.getValueAt(fila, 4).toString());
-                //System.out.println(""+total_valor);
-                total++;
-       }
-       //DecimalFormat df = new DecimalFormat("0.00"); 
-       //jlmonto.setText("$ "+df.format(total_valor)+"");       
-       jlmonto.setText("$ "+total_valor+"");       
-       jltotal.setText(total+"");
-       
-   } 
 
-    
-    
-    public void cargar_clientes(){
-       
-        
-        conex con=new conex();          
-        ResultSet rs = null;       
-        String myQuery = "SELECT * FROM tc_clientes order by nombre_completo asc";        
-        try {  
+    public static void cargar_informacion() {
+        float total_valor = 0;
+        int total = 0;
+        for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
+
+            total_valor = total_valor + Float.parseFloat(jtproductoscoti.getValueAt(fila, 4).toString());
+            //System.out.println(""+total_valor);
+            total++;
+        }
+        //DecimalFormat df = new DecimalFormat("0.00"); 
+        //jlmonto.setText("$ "+df.format(total_valor)+"");       
+        jlmonto.setText("$ " + total_valor + "");
+        jltotal.setText(total + "");
+
+    }
+
+    public void cargar_clientes() {
+
+        conex con = new conex();
+        ResultSet rs = null;
+        String myQuery = "SELECT * FROM tc_clientes order by nombre_completo asc";
+        try {
             Statement st = con.getConnection().createStatement();
-            rs = st.executeQuery(myQuery);            
-            while(rs.next()) {     
-                jcclientecoti.addItem(rs.getString("nombre_completo")+"-"+rs.getString("idcliente"));
+            rs = st.executeQuery(myQuery);
+            while (rs.next()) {
+                jcclientecoti.addItem(rs.getString("nombre_completo") + "-" + rs.getString("idcliente"));
             }
-            rs.close(); 
+            rs.close();
             st.close();
-            con.desconectar();                
+            con.desconectar();
         } catch (SQLException ex) {
         }
+
+    }
+
+    public static void cotizacion_venta() {
+        String tipoventa = jctipoventacoti.getSelectedItem().toString();
+        //String cliente=jcclientecoti.getSelectedItem().toString();
+        //obtenemos nuevos valores
+        String cliente = comboCliente.getSelectedItem().toString();
+        String costoEnvio = txtCostoEnvio.getText().toString();
+        String factura = comboFactura.getSelectedItem().toString();
+      
        
-   } 
+        if (!cliente.equals("Selecciona..")) {
+            // cliente="0";
+            if (costoEnvio.isEmpty()) {
+                if (!factura.equalsIgnoreCase("Selecciona...")) {
+                    if (dateFechaPago.getDate() != null) {
+                          String fechaPago = obtenerFecha(dateFechaPago);
+                           System.out.println("fechapago " + fechaPago);
+                        int numprod = jtproductoscoti.getRowCount();
+                        if (numprod > 0) {
+                            ArrayList productos = new ArrayList();
+                            for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
+                                //id    codigobarras   precioventa   cantidad   totalprod  descriprod
+                                productos.add(jtproductoscoti.getValueAt(fila, 6).toString() + "@" + jtproductoscoti.getValueAt(fila, 0).toString() + "@" + jtproductoscoti.getValueAt(fila, 2).toString() + "@" + jtproductoscoti.getValueAt(fila, 3).toString() + "@" + jtproductoscoti.getValueAt(fila, 4).toString() + "@" + jtproductoscoti.getValueAt(fila, 1).toString());
+                            }
 
-public static void cotizacion_venta(){
-            String tipoventa=jctipoventacoti.getSelectedItem().toString();
-            String cliente=jcclientecoti.getSelectedItem().toString();
-            if(cliente.equals("Selecciona..")){
-                cliente="0";
-            }else{
-                cliente=id(cliente);
+                            int cant = jlmonto.getText().trim().length();
+                            String monto = jlmonto.getText().trim().substring(1, cant); //se quita el caracter $        
+                            float monto_final = Float.parseFloat(monto);
+
+                            cobrar_ventafinal cobro = new cobrar_ventafinal();
+                            boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0, tipoventa, cliente);
+                            vaciartabla();
+                            cargar_informacion();
+                            jctipoventacoti.setSelectedIndex(0);
+                            jcclientecoti.setSelectedIndex(0);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No hay productos en la cotización. ", "Error al registrar la cotizacion", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selecciona una fecha", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                        dateFechaPago.requestFocus();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona una opcion de factura", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                    comboFactura.requestFocus();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Completa el campo", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                txtCostoEnvio.requestFocus();
             }
-            
-            
-    int numprod=jtproductoscoti.getRowCount();
-    if(numprod>0){
-        ArrayList productos=new ArrayList();
-        for(int fila=0; fila<jtproductoscoti.getRowCount(); fila++){
-               //id    codigobarras   precioventa   cantidad   totalprod  descriprod
-               productos.add(jtproductoscoti.getValueAt(fila, 6).toString()+"@"+jtproductoscoti.getValueAt(fila, 0).toString()+"@"+jtproductoscoti.getValueAt(fila, 2).toString()+"@"+jtproductoscoti.getValueAt(fila, 3).toString()+"@"+jtproductoscoti.getValueAt(fila, 4).toString()+"@"+jtproductoscoti.getValueAt(fila, 1).toString());               
-       }
-        
-        int cant=jlmonto.getText().trim().length();
-        String monto=jlmonto.getText().trim().substring(1, cant); //se quita el caracter $        
-        float monto_final=Float.parseFloat(monto);
-        
-        cobrar_ventafinal cobro=new cobrar_ventafinal();
-        boolean exito=cobro.cotizacion(monto_final,0,"","EFECTIVO",productos,"SINIMPRIMIR",0,tipoventa,cliente);  
-        vaciartabla();
-        cargar_informacion();
-        jctipoventacoti.setSelectedIndex(0);
-        jcclientecoti.setSelectedIndex(0);
-    }else{
-        JOptionPane.showMessageDialog(null, "No hay productos en la cotización. ", "Error al registrar la cotizacion", JOptionPane.ERROR_MESSAGE);
-    }
 
-}    
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona un cliente", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+            comboCliente.requestFocus();
+            //cliente = id(cliente);
 
-public void ponerfocoenventa(){
-    txtproductocoti.requestFocus();
-    
-}
-
-
-public static String id(String id){
-        String ids=id;
-        String[] temp=ids.split("-");
-        for(int i=1;i<2;i++){
-            ids=temp[i];
         }
-    return ids;
+
     }
-    
+
+    public static String obtenerFecha(JDateChooser fecha) {
+        int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
+        int año = fecha.getCalendar().get(Calendar.YEAR);
+        String mes1 = mes + "";
+        String dia1 = dia + "";
+        if (dia <= 9) {
+            dia1 = "0" + dia;
+        }
+        if (mes <= 9) {
+            mes1 = "0" + mes;
+        }
+
+        //prueba
+        String diaMesSeleccionado = "";
+        try {
+            String formato = fecha.getDateFormatString();
+            Date date = fecha.getDate();
+            SimpleDateFormat sdf = new SimpleDateFormat(formato);
+            String fechaDelDia = String.valueOf(sdf.format(date));
+            diaMesSeleccionado = fechaDelDia.substring(0, 2);
+            System.out.println("fecha prueba " + fechaDelDia);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        //String fechaDia = diaMesSeleccionado + "-" + mes1 + "-" + año;
+        String fechaDia = año + "-" + mes1 + "-" + diaMesSeleccionado;
+
+        return fechaDia;
+    }
+
+    public void ponerfocoenventa() {
+        txtproductocoti.requestFocus();
+
+    }
+
+    public static String id(String id) {
+        String ids = id;
+        String[] temp = ids.split("-");
+        for (int i = 1; i < 2; i++) {
+            ids = temp[i];
+        }
+        return ids;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JComboBox<String> comboCliente;
+    public static javax.swing.JComboBox<String> comboFactura;
+    public static com.toedter.calendar.JDateChooser dateFechaPago;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -795,9 +943,13 @@ public static String id(String id){
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -806,46 +958,40 @@ public static String id(String id){
     private static javax.swing.JLabel jlmonto;
     private static javax.swing.JLabel jltotal;
     public static javax.swing.JTable jtproductoscoti;
+    public static javax.swing.JTextField txtCostoEnvio;
     public static javax.swing.JTextField txtproductocoti;
     // End of variables declaration//GEN-END:variables
 
-    
-    public void keyPressed(KeyEvent e) {   
-    if (e.VK_F10==e.getKeyCode())
-    {
-        Frame f = JOptionPane.getFrameForComponent(this);
-        catalogo_productosCoti dialog = new catalogo_productosCoti(f, true);
-        dialog.show();
-    }
-    
-    if (e.VK_F12==e.getKeyCode())
-    {
-        
-        System.out.println("VENTA");
-        cotizacion_venta();
-        /*Frame f = JOptionPane.getFrameForComponent(this);
+    public void keyPressed(KeyEvent e) {
+        if (e.VK_F10 == e.getKeyCode()) {
+            Frame f = JOptionPane.getFrameForComponent(this);
+            catalogo_productosCoti dialog = new catalogo_productosCoti(f, true);
+            dialog.show();
+        }
+
+        if (e.VK_F12 == e.getKeyCode()) {
+
+            System.out.println("VENTA");
+            cotizacion_venta();
+            /*Frame f = JOptionPane.getFrameForComponent(this);
         CobrarCajaInicial dialog = new CobrarCajaInicial(f, true);
         dialog.show();
-        */ 
-        //cobrar_venta();
+             */
+            //cobrar_venta();
+        }
+
     }
-    
-   }
 
-
-    
     @Override
-    public void keyTyped(KeyEvent e) {        
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-    if (e.getSource()==txtproductocoti)
-    {
-        if (e.VK_ESCAPE==e.getKeyCode())
-        {
-            
+        if (e.getSource() == txtproductocoti) {
+            if (e.VK_ESCAPE == e.getKeyCode()) {
+
+            }
         }
-    }        
     }
 }
