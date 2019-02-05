@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
- * @author desarrollo8
+ * @author desarrollo8 cesar
  */
 public class Devoluciones {
     public boolean devolucion(String idventa, float cantidad){
