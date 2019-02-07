@@ -73,16 +73,16 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jctipoventacoti = new javax.swing.JComboBox<>();
+        jctipoventacoti = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
-        jcclientecoti = new javax.swing.JComboBox<>();
+        jcclientecoti = new javax.swing.JComboBox<String>();
         jButton11 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        comboCliente = new javax.swing.JComboBox<>();
+        comboCliente = new javax.swing.JComboBox<String>();
         txtCostoEnvio = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        comboFactura = new javax.swing.JComboBox<>();
+        comboFactura = new javax.swing.JComboBox<String>();
         jLabel12 = new javax.swing.JLabel();
         dateFechaPago = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -192,7 +192,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jctipoventacoti.setVisible(false);
         jctipoventacoti.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jctipoventacoti.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona..", "Ticket", "Factura" }));
+        jctipoventacoti.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona..", "Ticket", "Factura" }));
 
         jLabel4.setVisible(false);
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -201,7 +201,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jcclientecoti.setVisible(false);
         jcclientecoti.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jcclientecoti.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona.." }));
+        jcclientecoti.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona.." }));
 
         jButton11.setVisible(false);
         jButton11.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
@@ -225,7 +225,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jcclientecoti.setVisible(false);
         comboCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona.." }));
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona.." }));
         comboCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboClienteActionPerformed(evt);
@@ -246,7 +246,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jctipoventacoti.setVisible(false);
         comboFactura.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboFactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona..", "Si", "No" }));
+        comboFactura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona..", "Si", "No" }));
 
         jLabel4.setVisible(false);
         jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -286,7 +286,8 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dateFechaPago, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                                .addComponent(dateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 23, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel4)))
@@ -810,7 +811,8 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             Statement st = con.getConnection().createStatement();
             rs = st.executeQuery(myQuery);
             while (rs.next()) {
-                jcclientecoti.addItem(rs.getString("nombre_completo") + "-" + rs.getString("idcliente"));
+                //jcclientecoti.addItem(rs.getString("nombre_completo") + "-" + rs.getString("idcliente"));
+                comboCliente.addItem(rs.getString("nombre_completo") + "-" + rs.getString("idcliente"));
             }
             rs.close();
             st.close();
@@ -831,7 +833,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
        
         if (!cliente.equals("Selecciona..")) {
             // cliente="0";
-            if (costoEnvio.isEmpty()) {
+            if (!costoEnvio.isEmpty()) {
                 if (!factura.equalsIgnoreCase("Selecciona...")) {
                     if (dateFechaPago.getDate() != null) {
                           String fechaPago = obtenerFecha(dateFechaPago);
@@ -849,7 +851,8 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                             float monto_final = Float.parseFloat(monto);
 
                             cobrar_ventafinal cobro = new cobrar_ventafinal();
-                            boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0, tipoventa, cliente);
+                            boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0,
+                                    tipoventa, cliente,cliente,costoEnvio,factura,fechaPago);
                             vaciartabla();
                             cargar_informacion();
                             jctipoventacoti.setSelectedIndex(0);

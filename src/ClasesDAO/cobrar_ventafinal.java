@@ -432,7 +432,8 @@ public double obteniva(){
 
 
 
-public boolean cotizacion(float monto, float pagoefectivo, String referenciabanco,String formaPago,ArrayList productos,String impresionticket,double descuento, String tipoventa,String cliente){
+public boolean cotizacion(float monto, float pagoefectivo, String referenciabanco,String formaPago,ArrayList productos,String impresionticket,double descuento, String tipoventa,
+        String cliente,String clienteSeleccionado,String costoEnvio,String factura,String fechaPago){
         
         
        double resultdescuento = (descuento * monto)/100;            
@@ -474,8 +475,8 @@ public boolean cotizacion(float monto, float pagoefectivo, String referenciabanc
            java.util.Date today = Calendar.getInstance().getTime();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddhhmmss");     
             String codigoventa = formatter.format(today);
-           SQL = "INSERT INTO to_cotizacion (fecha, monto_total, usuario_registro) " +
-                         "VALUES (now(), "+monto+", '"+accesoSistema.nombreuser+"')";
+           SQL = "INSERT INTO to_cotizacion (fecha, monto_total, usuario_registro,cliente,costoEnvio,factura,fechaPago) " +
+                         "VALUES (now(), "+monto+", '"+accesoSistema.nombreuser+"','"+clienteSeleccionado+"','"+costoEnvio+"','"+factura+"','"+fechaPago+"')";
            stmt.executeUpdate(SQL);  
            
            String idcoti="";
