@@ -225,7 +225,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jcclientecoti.setVisible(false);
         comboCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona.." }));
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona..." }));
         comboCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboClienteActionPerformed(evt);
@@ -274,7 +274,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -287,7 +287,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 23, Short.MAX_VALUE))
+                                .addGap(0, 7, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel4)))
@@ -831,7 +831,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         String factura = comboFactura.getSelectedItem().toString();
       
        
-        if (!cliente.equals("Selecciona..")) {
+        if (!cliente.equals("Selecciona...")) {
             // cliente="0";
             if (!costoEnvio.isEmpty()) {
                 if (!factura.equalsIgnoreCase("Selecciona...")) {
