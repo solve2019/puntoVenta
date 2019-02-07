@@ -287,8 +287,8 @@ public class RemisionPDF {
  		
 	try
         {       
-            String master = "reportes//cotizacion.jasper";  //poner la direccion donde se encuentra el archivo .jasper
-            
+            String master = "reportes//cotizacion.jasper";   //poner la direccion donde se encuentra el archivo .jasper
+                                     
           //  System.out.println("master" + master);
             if (master == null) 
             {                
