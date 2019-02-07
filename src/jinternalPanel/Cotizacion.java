@@ -85,6 +85,8 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         comboFactura = new javax.swing.JComboBox<String>();
         jLabel12 = new javax.swing.JLabel();
         dateFechaPago = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        comboFormaPago = new javax.swing.JComboBox<String>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtproductoscoti = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -253,6 +255,15 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         jLabel12.setForeground(new java.awt.Color(0, 51, 204));
         jLabel12.setText("Fecha pago:");
 
+        jLabel4.setVisible(false);
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel13.setText("Forma pago:");
+
+        jctipoventacoti.setVisible(false);
+        comboFormaPago.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        comboFormaPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona...", "Efectivo", "Tarjeta", "Credito" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -287,7 +298,11 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 7, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel4)))
@@ -318,7 +333,10 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                         .addComponent(jLabel10))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jctipoventacoti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2))
+                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(comboFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(dateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -836,8 +854,11 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             if (!costoEnvio.isEmpty()) {
                 if (!factura.equalsIgnoreCase("Selecciona...")) {
                     if (dateFechaPago.getDate() != null) {
-                          String fechaPago = obtenerFecha(dateFechaPago);
-                           System.out.println("fechapago " + fechaPago);
+                        if (!comboFormaPago.getSelectedItem().toString().equalsIgnoreCase("Selecciona...")) {
+                            
+                        
+                         // String fechaPago = obtenerFecha(dateFechaPago);
+                         //  System.out.println("fechapago " + fechaPago);
                         int numprod = jtproductoscoti.getRowCount();
                         if (numprod > 0) {
                             ArrayList productos = new ArrayList();
@@ -852,7 +873,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
                             cobrar_ventafinal cobro = new cobrar_ventafinal();
                             boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0,
-                                    tipoventa, cliente,cliente,costoEnvio,factura,fechaPago);
+                                    tipoventa, cliente,  comboCliente,txtCostoEnvio,comboFactura,dateFechaPago,comboFormaPago);
                             vaciartabla();
                             cargar_informacion();
                             jctipoventacoti.setSelectedIndex(0);
@@ -860,6 +881,11 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                         } else {
                             JOptionPane.showMessageDialog(null, "No hay productos en la cotización. ", "Error al registrar la cotizacion", JOptionPane.ERROR_MESSAGE);
                         }
+                        }else{
+                             JOptionPane.showMessageDialog(null, "Selecciona una forma de pago", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                        comboFormaPago.requestFocus(); 
+                        }
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Selecciona una fecha", "Advertencia!", JOptionPane.WARNING_MESSAGE);
                         dateFechaPago.requestFocus();
@@ -882,39 +908,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
     }
 
-    public static String obtenerFecha(JDateChooser fecha) {
-        int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
-        int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
-        int año = fecha.getCalendar().get(Calendar.YEAR);
-        String mes1 = mes + "";
-        String dia1 = dia + "";
-        if (dia <= 9) {
-            dia1 = "0" + dia;
-        }
-        if (mes <= 9) {
-            mes1 = "0" + mes;
-        }
-
-        //prueba
-        String diaMesSeleccionado = "";
-        try {
-            String formato = fecha.getDateFormatString();
-            Date date = fecha.getDate();
-            SimpleDateFormat sdf = new SimpleDateFormat(formato);
-            String fechaDelDia = String.valueOf(sdf.format(date));
-            diaMesSeleccionado = fechaDelDia.substring(0, 2);
-            System.out.println("fecha prueba " + fechaDelDia);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
-
-        }
-
-        //String fechaDia = diaMesSeleccionado + "-" + mes1 + "-" + año;
-        String fechaDia = año + "-" + mes1 + "-" + diaMesSeleccionado;
-
-        return fechaDia;
-    }
+   
 
     public void ponerfocoenventa() {
         txtproductocoti.requestFocus();
@@ -933,6 +927,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JComboBox<String> comboCliente;
     public static javax.swing.JComboBox<String> comboFactura;
+    public static javax.swing.JComboBox<String> comboFormaPago;
     public static com.toedter.calendar.JDateChooser dateFechaPago;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -949,6 +944,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -31,7 +31,7 @@
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[COTIZACION:]]></text>
+				<text><![CDATA[CO:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="396" y="25" width="51" height="20"/>

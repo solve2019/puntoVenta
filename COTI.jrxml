@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0d89b3a0-5b82-4d29-aec3-fb219e0b1781">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="19"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="1f67648d-d1f5-4c6b-ad46-b2eb1833e3b0"/>
+	<parameter name="cliente" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select * from tc_usuarios]]>
+	</queryString>
+	<field name="idusuario" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="password" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_alta" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="perfil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="2" width="100" height="20" uuid="dafca799-8f31-40be-9234-96ba559c0523"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[FORMATO DE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="22" width="280" height="20" uuid="f9c0e76b-8c6b-497d-b773-66efc4ebcc60"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[ORDEN DE COMPRA | PREFACTURA | COTIZACIÓN]]></text>
+			</staticText>
+			<image>
+				<reportElement x="453" y="12" width="81" height="53" uuid="e1c8b678-defe-4a9f-9c4b-654a62f32fd9"/>
+				<imageExpression><![CDATA["C:\\Users\\Usuario\\Documents\\git\\aqui\\puntoVenta\\imagenes_configurables\\logo_sistema.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="2" y="59" width="25" height="20" uuid="26ead80d-e9f8-440f-962d-5c3741ab9be2"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="187" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="300" height="187" uuid="ebd340e2-99a3-46c4-acc5-1dbacd343980"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="20" width="90" height="20" uuid="c9ee8944-9a6d-4370-a47a-4da49d76288d"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="40" width="90" height="20" uuid="a3673d97-9335-48cf-8a68-a5dad001bf26"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="80" width="90" height="20" uuid="e6edbad2-eac2-4bbb-bb27-fa3733c554b1"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CIUDAD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="140" width="90" height="20" uuid="8768638b-7281-4453-a595-e2913707ff74"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="140" width="55" height="20" uuid="23d87fa9-2b0b-4ca8-8222-21ac2f64d510"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CREDITO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="140" width="92" height="20" uuid="6315a0d8-c991-4c2a-842e-a00725b1a891"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[FECHA PAGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="100" width="39" height="20" uuid="91c9745d-06bc-4a2d-bb33-65196ec1debb"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="120" width="68" height="20" uuid="a3abba7e-465d-4aaf-8b2a-e2c0fd1c4a3b"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[TELEFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="298" height="20" uuid="3e4c8cb2-d743-4402-86d5-5fc048fa5dc1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL SOLICITANTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="308" y="0" width="247" height="187" uuid="533f4d96-31b8-4cbf-a7f3-18d7f119888f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="308" y="0" width="247" height="20" uuid="78369173-cc71-4566-a98e-c84e212145a0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS COLOSTOMIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="20" width="55" height="20" uuid="4c7d640b-0848-4250-bb9b-cc53398af116"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="80" width="55" height="20" uuid="fd3a10fc-e042-461e-93e9-3896d2e031f8"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CIUDAD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="40" width="69" height="20" uuid="fb1f3186-1e69-4f69-a6d6-ef249ea6eea8"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="20" width="137" height="20" uuid="47fcc090-c429-4002-bb21-44021036d5ec"/>
+				<text><![CDATA[COLOSTOMIC S.A. DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="40" width="168" height="40" uuid="15d89624-8a63-4816-9208-00b644c6f618"/>
+				<text><![CDATA[CALLE ESTRADA CAJIGAL Nº 504 
+COL. LOMAS DE LA SELVA
+CUERNAVACA MOR. C.P. 62670]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="80" width="100" height="20" uuid="44fa198c-74d0-4ee0-9cdb-e82f7fdeccc8"/>
+				<text><![CDATA[CUERNAVACA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="100" width="68" height="20" uuid="b011954f-687a-43cf-89a4-0365bf2fd3c4"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[TELEFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="100" width="157" height="20" uuid="87f31af8-5407-48df-b2bc-f438ecb616bd"/>
+				<text><![CDATA[01 777 244 1317 | 52692169]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="120" width="39" height="20" uuid="120b2364-42cf-4313-9459-63ce1e48a5a0"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="120" width="157" height="20" uuid="19bee414-6d14-45cb-ba0f-611924620518"/>
+				<text><![CDATA[COL120623RS7]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="102" y="20" width="100" height="20" uuid="be04980e-4daa-4c4b-95e4-59bd68cb77ac"/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="391" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="102" height="20" uuid="dcbcc2a1-da22-4149-b0ef-e1777cf21ee1"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="0" width="87" height="20" uuid="072d1a24-1c0c-44b7-820e-0f756bda9111"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DIA:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="102" y="0" width="83" height="20" uuid="96f4ea6d-7d0d-4a38-8d31-ae5e30c2b90b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="185" y="0" width="100" height="20" uuid="f4bb78f7-7c83-4481-8412-8181d76fb471"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="185" y="0" width="90" height="20" uuid="c602baf2-6123-4a84-be8a-ec17ceb24304"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[MES:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="285" y="0" width="100" height="20" uuid="c2ceb1de-66c6-46c6-8bb4-237ed6f1ac7c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="377" y="0" width="100" height="20" uuid="edd54887-375c-4723-bc16-8195d08a0b1f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="377" y="0" width="90" height="20" uuid="8879e3d6-a66a-4e2c-baff-7a4b4bca8bcf"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[AÑO:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="467" y="0" width="88" height="20" uuid="450f0cb1-8950-46c8-95f3-5b4040fe10f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="20" width="70" height="20" uuid="3761585b-fdb1-4c66-baf5-58d024a9a887"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="20" width="70" height="20" uuid="62ee7f3a-1789-4661-a6eb-3a0d37789bd2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="40" width="70" height="158" uuid="5f67c88f-ff81-4599-b479-2feab42a54ae"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="70" y="20" width="239" height="20" uuid="3a130d30-ac1e-45df-8dce-02f64762bbc3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="70" y="20" width="239" height="20" uuid="20902acc-a663-47a1-8ffb-e0a72492bf84"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[ARTICULO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="308" y="20" width="90" height="20" uuid="ccf51796-d69e-4058-9577-fb25f18ae7da"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="308" y="20" width="90" height="20" uuid="ee635c27-2839-4b8a-a061-a55040efa40d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[PRESENTACIÓN]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="70" y="40" width="238" height="158" uuid="f1ef6561-012e-4bfe-a5e7-68650a8efd13"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="308" y="40" width="90" height="158" uuid="c96155d9-65b6-46d3-b853-035c85e47782"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="398" y="20" width="74" height="20" uuid="5238fc6c-af77-4186-a30c-6b675390fa58"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="399" y="20" width="68" height="20" uuid="c193106f-32fc-455d-9bf8-46797d8b2219"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="398" y="40" width="74" height="158" uuid="1aeeeaf6-6211-4dc2-9edd-f25e42d9218f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="472" y="20" width="83" height="20" uuid="1f42aacd-450e-4e79-8fe0-a97752cfbbde"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="480" y="20" width="54" height="20" uuid="84f6fb9c-4aa1-439d-8a5e-f12bf6e8baed"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[IMPORTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="472" y="40" width="83" height="158" uuid="09d466ea-e37d-416c-8741-252bcec53ec4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="198" width="398" height="67" uuid="59f4b4f8-2fd3-4cb3-bcce-ebe883cf5132"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="198" width="380" height="67" uuid="b21372d4-d85a-4b69-89ec-400acfb603c3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Reg. Sanitario Nº 2366C2014SSA Recomendación de almacenamiento consérvece a temperatura
+ambiente y en un lugar seco. Todos los productos Colostomic cumplen con especificaciones FEUM 
+así como materiales de alta calidad para el cuidado de la piel.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="397" y="198" width="75" height="55" uuid="c316841f-e514-49d2-8b70-be45d062f348"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="253" width="75" height="52" uuid="0be61721-413d-4d32-a9d0-55fcc001a4ce"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="305" width="73" height="45" uuid="ba8bd2a0-c6ad-48f4-a752-91cad5effcf1"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="397" y="350" width="73" height="41" uuid="22522c06-532c-4368-bf56-37a109ffce17"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="404" y="198" width="49" height="55" uuid="28fb8a38-fb71-43d7-a676-7d0de147d639"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[ENVIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="253" width="69" height="52" uuid="2195cd8d-511b-4755-ba3c-87557724fb01"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[SUBTOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="305" width="68" height="45" uuid="c8734379-3297-49dc-9c38-4d5ccbabab4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="350" width="70" height="41" uuid="0a8145be-2154-4028-8364-9d86202aa40b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="472" y="198" width="83" height="55" uuid="8b5fbd6d-8923-4185-a9b5-1beabb4a1a13"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="471" y="253" width="84" height="52" uuid="9191dd03-57bd-4ed5-8736-8546a2b59878"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="470" y="305" width="84" height="45" uuid="6f464fbd-b875-42ca-a3d5-834024fbfdcd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="470" y="350" width="85" height="41" uuid="8a52c43d-14f8-4ab0-b7f8-fefa20035464"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="265" width="396" height="126" uuid="6fb95014-0096-495c-adfb-65fd32b0649c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="265" width="397" height="20" uuid="e61c3af9-71c3-4514-9d59-263425fd1d2f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES DE ENVÍO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="285" width="396" height="106" uuid="ac920e0c-140c-4bd8-91e2-61713bd4a397"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[1.- Es indispensable que su orden de compra especifique nombre,dirección,teléfono y email   de la persona solicitante.
+2.- El envio es por paqueteria FEDEX.
+3.- Colostomic SA de CV después de la recepción del producto con el cliente no se hace responsable por daños añ producto por el manejo y/o almacenamiento.
+4.-Esta cotización tiene vigencia de 30 dias naturales a partir de su fecha de emisión.
+]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="0" width="554" height="125" uuid="76305f9c-6370-419c-8da6-0944e53e8487"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="552" height="20" uuid="73b3399d-08da-458b-a1d5-1d6d12a96b55"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS PARA DEPOSITO CON FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="554" height="105" uuid="d9f3f50e-b2ef-4f9d-8395-31cda5fb0233"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[BANCO BANAMEX
+A NOMOBRE: COLOSTOMIC SA DE CV
+NUMERO CUENTE: 8175007 SUCURSAL 7003
+CUENTA CLABE: 002540700381750073]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="remision" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="186"/>
+	<parameter name="folio" class="java.lang.String"/>
+	<parameter name="subtotal" class="java.lang.String"/>
+	<parameter name="iva" class="java.lang.String"/>
+	<parameter name="total" class="java.lang.String"/>
+	<parameter name="datosempresa" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="fechaPago" class="java.lang.String"/>
+	<parameter name="factura" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="direccion" class="java.lang.String"/>
+	<parameter name="ciudad" class="java.lang.String"/>
+	<parameter name="telefono" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="año" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select cantidad,precio,total,nombre_producto from to_cotizacion_prod, tc_productos where id_coti=$P{folio} and tc_productos.idproducto=to_cotizacion_prod.idproducto]]>
+	</queryString>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="precio" class="java.lang.Float"/>
+	<field name="total" class="java.lang.Float"/>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="76" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="3" width="574" height="72"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="3" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[FORMATO DE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="23" width="284" height="20"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[ORDEN DE COMPRA | PREFACTURA | COTIZACIÓN]]></text>
+			</staticText>
+			<image>
+				<reportElement x="454" y="15" width="100" height="50"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\Usuario\\Documents\\git\\aqui\\puntoVenta\\imagenes_configurables\\logo_sistema.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="55" width="29" height="20"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="29" y="55" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{folio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="146" splitType="Stretch">
+			<rectangle>
+				<reportElement x="304" y="0" width="268" height="146"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="291" height="146"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="304" y="0" width="268" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS COLOSTOMIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="291" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL SOLICITANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="48" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="58" height="20"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Ciudad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="20" width="30" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="100" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Condiciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="100" width="51" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Credito:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="100" width="71" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="40" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="80" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Ciudad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="100" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="20" width="81" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="120" width="30" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="9"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="20" width="177" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[COLOSTOMIC S.A. DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="40" width="179" height="40"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CALLE ESTRADA CAJIGAL Nº 504
+COL. LOMAS DE LA SELVA
+CUERNAVACA MOR. C.P. 62670 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="80" width="179" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CUERNAVACA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="100" width="179" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[01 777 244 1317 | 52692169]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="120" width="179" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[COL120623RS7]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="48" y="20" width="133" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="120" width="71" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fechaPago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="20" width="76" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{rfc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="40" width="233" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="60" width="210" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="80" width="193" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{telefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="87" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="88" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="88" y="0" width="86" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="174" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="274" y="0" width="109" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="375" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="475" y="0" width="97" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="174" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="20" width="58" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="20" width="311" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="20" width="75" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="514" y="20" width="58" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="20" width="58" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="20" width="311" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Articulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="20" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Presentación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="444" y="20" width="70" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="514" y="20" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="20" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="40" width="58" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="58" y="40" width="311" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="40" width="75" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="444" y="40" width="70" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="514" y="40" width="58" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="88" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Día]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="40" width="58" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="40" width="311" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="40" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="40" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="0" width="86" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="274" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="475" y="0" width="97" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{año}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="284" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="164" width="444" height="120"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="164" width="444" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES DE ENVIÓ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="184" width="444" height="100"/>
+				<textElement/>
+				<text><![CDATA[1.- Es indispensable que su orden de compra especifique nombre,dirección,teléfono y email
+ de la persona solicitante.
+2.- El envió es por paquetería FEDEX.
+3.- Colostomic SA de CV después de la recepción del producto con el cliente
+ no se hace responsable por daños al producto por el manejo y/o almacenamiento.
+4. Esta cotización tiene vigencia de 30 días naturales a partir de su fecha de emisión.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="444" y="164" width="70" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="444" y="204" width="70" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="444" y="244" width="70" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="444" y="164" width="70" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="204" width="70" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="514" y="164" width="58" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="514" y="204" width="58" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="514" y="244" width="58" height="40"/>
+			</rectangle>
+			<textField>
+				<reportElement x="514" y="164" width="60" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="204" width="58" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{iva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="244" width="58" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="124" width="444" height="44"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="124" width="444" height="40"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Reg. Sanitario Nº 2366C2014SSA Recomendación de almacenamiento consérvese a
+temperatura ambiente y en un lugar seco. Todos los productos Colostomic cumplen
+con especificaciones FEUM Así como materiales de alta calidad para el cuidado de la piel.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="244" width="70" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="142" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="572" height="119"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="572" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[DATOS PARA DEPOSITO DE FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="20" width="572" height="73"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BANCO BANAMEX
+A NOMOBRE: COLOSTOMIC SA DE CV
+NUMERO CUENTE: 8175007 SUCURSAL 7003
+CUENTA CLABE: 002540700381750073]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="93" width="104" height="20"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[Requiere factura:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="93" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="58" splitType="Stretch"/>
+	</summary>
+</jasperReport>
