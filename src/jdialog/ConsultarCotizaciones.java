@@ -206,7 +206,7 @@ public void cargartabla(){
                    Statement st = con.getConnection().createStatement();
                    rsR = st.executeQuery(myQuery);
                    while(rsR.next()) {       
-                       System.out.println("te mamas " +rsR.getString("cliente") +"usus" + rsR.getString("usuario_registro"));
+                    
                             modelo.addRow(new Object[]{rsR.getString("id_cotizacion"),rsR.getString("fecha"),rsR.getString("monto_total"),rsR.getString("usuario_registro")});                        
                    }
                    sorter = new TableRowSorter<TableModel>(modelo);

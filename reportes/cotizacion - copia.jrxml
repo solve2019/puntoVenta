@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="remision" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="171"/>
+	<property name="ireport.y" value="340"/>
 	<parameter name="folio" class="java.lang.String"/>
 	<parameter name="subtotal" class="java.lang.String"/>
 	<parameter name="iva" class="java.lang.String"/>
@@ -45,16 +45,12 @@
 				<text><![CDATA[FORMATO DE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="70" y="23" width="284" height="20"/>
+				<reportElement x="70" y="23" width="85" height="20"/>
 				<textElement>
 					<font fontName="Arial Black"/>
 				</textElement>
-				<text><![CDATA[ORDEN DE COMPRA | PREFACTURA | COTIZACIÓN]]></text>
+				<text><![CDATA[COTIZACIÓN]]></text>
 			</staticText>
-			<image>
-				<reportElement x="454" y="15" width="100" height="50"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\Usuario\\Documents\\git\\aqui\\puntoVenta\\imagenes_configurables\\logo_sistema.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="0" y="55" width="29" height="20"/>
 				<textElement>
@@ -499,7 +495,7 @@ con especificaciones FEUM Así como materiales de alta calidad para el cuidado d
 				<reportElement x="514" y="80" width="58" height="40"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="120" width="572" height="119"/>
+				<reportElement x="0" y="120" width="572" height="187"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="120" width="572" height="20"/>
@@ -513,11 +509,11 @@ con especificaciones FEUM Así como materiales de alta calidad para el cuidado d
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[BANCO BANAMEX
 A NOMOBRE: COLOSTOMIC SA DE CV
-NUMERO CUENTE: 8175007 SUCURSAL 7003
+NUMERO CUENTA: 8175007 SUCURSAL 7003
 CUENTA CLABE: 002540700381750073]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="219" width="104" height="20"/>
+				<reportElement x="0" y="287" width="104" height="20"/>
 				<textElement>
 					<font fontName="Arial Black"/>
 				</textElement>
@@ -539,7 +535,7 @@ CUENTA CLABE: 002540700381750073]]></text>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="103" y="219" width="100" height="20"/>
+				<reportElement x="103" y="287" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}]]></textFieldExpression>
 			</textField>
