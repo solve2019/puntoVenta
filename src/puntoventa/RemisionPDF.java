@@ -1,6 +1,9 @@
 package puntoventa;
 
 import conexion.conex;
+import java.awt.TextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,6 +33,7 @@ public class RemisionPDF {
         String password = conex.password;
         String ip = conex.ip;
 
+        
         String url = "jdbc:mysql://" + ip + "/" + bd;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -233,29 +237,52 @@ public class RemisionPDF {
 
             double ivas = obteniva();
 
-            String folio = "", subtotal = "", total = "", iva = "", cliente = "", costoEnvio = "", factura = "", fechaPago = "";
+            String folio = "", subtotal = "", cliente = "", costoEnvio = "", factura = "", fechaPago = "";
             conex con = new conex();
-            String direccion = "", telefono = "", rfc = "", estado = "", formaPago = "",fechaRegistro="",formaPago1="";
+            double iva = 0.0, total = 0.0;
+            String datosDeposito = "BANCO BANAMEX\n"
+                    + "A NOMOBRE: COLOSTOMIC SA DE CV\n"
+                    + "NUMERO CUENTA: 8175007 SUCURSAL 7003\n"
+                    + "CUENTA CLABE: 002540700381750073";
+            String direccion = "", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
             try {
 
-                String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
-                        + "monto_total+(monto_total*" + ivas + ") as total,cliente,costoEnvio,factura,fechaPago,formaPago "
+                /* String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
+                 + "monto_total+(monto_total+costoEnvio)*" + ivas + ") as total,cliente,costoEnvio,factura,fechaPago,formaPago "
+                 + "from to_cotizacion where id_cotizacion='" + idcoti + "'";*/
+                String myQuery = "select DATE(fecha) as fecha, monto_total,"
+                        + "cliente,costoEnvio,factura,fechaPago,formaPago "
                         + "from to_cotizacion where id_cotizacion='" + idcoti + "'";
-                System.out.println("" + myQuery);
+                System.out.println("consulta homi" + myQuery);
                 ResultSet rsR = null;
                 Statement st = con.getConnection().createStatement();
                 rsR = st.executeQuery(myQuery);
                 while (rsR.next()) {
 
                     subtotal = rsR.getString("monto_total");
-                    total = rsR.getString("total");
-                    iva = rsR.getString("iva");
+                    total = Double.parseDouble(rsR.getString("monto_total"));
+                    factura = rsR.getString("factura");
+                    if (factura.equalsIgnoreCase("si")) {
+                        iva = total * ivas;
+                        total += iva;
+
+                    } else {
+                        datosDeposito = "BANCO BANAMEX\n"
+                                + "A NOMOBRE: VICTOR MANUEL BARRANCO JOYNER\n"
+                                + "NUMERO DE CUENTA: 801 5718\n"
+                                + "SUCURSAL: 500\n"
+                                + "PAGO DESDE CUALQUIER OXXO\n"
+                                + "CUENTA CLABE: 002 540 050 080 157 180\n"
+                                + "BANCO BANAMEX \n"
+                                + "5204 1671 3241 0697";
+                    }
+
                     cliente = rsR.getString("cliente");
                     costoEnvio = rsR.getString("costoEnvio");
                     factura = rsR.getString("factura");
                     fechaPago = rsR.getString("fechaPago");
-                    fechaRegistro=rsR.getString("fecha");
-                    formaPago1=rsR.getString("formaPago");
+                    fechaRegistro = rsR.getString("fecha");
+                    formaPago1 = rsR.getString("formaPago");
                 }
                 //**consultar clientes
 
@@ -299,8 +326,8 @@ public class RemisionPDF {
 
             parametro.put("datosempresa", datosempresa);
             parametro.put("subtotal", subtotal);
-            parametro.put("iva", iva);
-            parametro.put("total", total);
+            parametro.put("iva", iva + "");
+            parametro.put("total", total + "");
             parametro.put("cliente", cliente);
             parametro.put("fechaPago", fechaPago);
             parametro.put("factura", factura);
@@ -308,14 +335,13 @@ public class RemisionPDF {
             parametro.put("direccion", direccion);
             parametro.put("ciudad", estado);
             parametro.put("telefono", telefono);
-            String arreFecha[]=fechaRegistro.split("-");
-             parametro.put("dia", arreFecha[2]);
-              parametro.put("mes", arreFecha[1]);
-               parametro.put("año", arreFecha[0]);
-                   parametro.put("formaPago", formaPago1);
-            
-            
-            
+            String arreFecha[] = fechaRegistro.split("-");
+            parametro.put("dia", arreFecha[2]);
+            parametro.put("mes", arreFecha[1]);
+            parametro.put("año", arreFecha[0]);
+            parametro.put("formaPago", formaPago1);
+            parametro.put("costoenvio", costoEnvio);
+            parametro.put("datos_deposito",datosDeposito);
 
             //parametro.put("folio",folio);            
             System.out.println(folio + " " + subtotal + " " + iva + " " + total + " " + fechaPago + " " + factura);
@@ -737,5 +763,7 @@ public class RemisionPDF {
         }
 
     }
+    
+   
 
 }

@@ -12,6 +12,8 @@ import com.mysql.jdbc.PreparedStatement;
 import com.toedter.calendar.JDateChooser;
 import conexion.conex;
 import java.awt.Frame;
+import java.awt.TextField;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.ResultSet;
@@ -29,6 +31,7 @@ import jdialog.ReporteDiarioVentasDevoluciones;
 import jdialog.catalogo_productos;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JTextField;
 //import jdialog.CobrarCajaInicial;
 import jdialog.EditarCantidad;
 import jdialog.EditarCantidadCotizacion;
@@ -46,12 +49,32 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
      */
     public Cotizacion() {
         initComponents();
+        //validamos campo costoEnvio//validamos campo costoEnvio
+        soloNumerosYpunto(txtCostoEnvio);
         jtproductoscoti.getColumnModel().getColumn(6).setMaxWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setMinWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setPreferredWidth(0);
         jtproductoscoti.getColumnModel().getColumn(6).setWidth(0);
         cargar_clientes();
 
+    }
+
+    public void soloNumerosYpunto(JTextField texto) {
+        texto.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+                int valor = (int) e.getKeyChar();
+             
+                if (Character.isLetter(caracter) && valor != 46) {
+                    e.consume();
+                } else {
+                   
+                }
+            }
+
+        });
     }
 
     /**
@@ -262,7 +285,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
 
         jctipoventacoti.setVisible(false);
         comboFormaPago.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboFormaPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona...", "Efectivo", "Tarjeta", "Credito" }));
+        comboFormaPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona...", "Contado", "Credito" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -544,13 +567,13 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         /*if(jctipoventacoti.getSelectedItem().toString().equals("Selecciona..")){            
-            JOptionPane.showMessageDialog(null, "Falta seleccionar el tipo de venta.", "Alerta", JOptionPane.ERROR_MESSAGE);                
-        }else{
-            Frame f = JOptionPane.getFrameForComponent(this);
-            CobrarCajaInicial dialog = new CobrarCajaInicial(f, true);
-            dialog.show();             
-            //cobrar_venta();
-        }
+         JOptionPane.showMessageDialog(null, "Falta seleccionar el tipo de venta.", "Alerta", JOptionPane.ERROR_MESSAGE);                
+         }else{
+         Frame f = JOptionPane.getFrameForComponent(this);
+         CobrarCajaInicial dialog = new CobrarCajaInicial(f, true);
+         dialog.show();             
+         //cobrar_venta();
+         }
          */
         cotizacion_venta();
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -690,9 +713,10 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                         System.out.println("MAS DE UN REGISTRO PERO YA ESTA EN TABLA");
                         existe_tabla_temp = true;
                     }/*else{//es nuevo y se agrega    
-                       System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
-                       modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
-                    }*/
+                     System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
+                     modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
+                     }*/
+
                 }
 
                 if (existe_tabla_temp == false && jtproductoscoti.getRowCount() > 0) {
@@ -770,9 +794,10 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
                         System.out.println("MAS DE UN REGISTRO PERO YA ESTA EN TABLA");
                         existe_tabla_temp = true;
                     }/*else{//es nuevo y se agrega    
-                       System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
-                       modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
-                    }*/
+                     System.out.println("MAS DE UN REGISTRO, PERO NUEVO");
+                     modelo.addRow(new Object[]{codigobarra,producto,precio+"","1",precio+"",existencia-1});
+                     }*/
+
                 }
 
                 if (existe_tabla_temp == false && jtproductoscoti.getRowCount() > 0) {
@@ -847,45 +872,43 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         String cliente = comboCliente.getSelectedItem().toString();
         String costoEnvio = txtCostoEnvio.getText().toString();
         String factura = comboFactura.getSelectedItem().toString();
-      
-       
+
         if (!cliente.equals("Selecciona...")) {
             // cliente="0";
             if (!costoEnvio.isEmpty()) {
                 if (!factura.equalsIgnoreCase("Selecciona...")) {
                     if (dateFechaPago.getDate() != null) {
                         if (!comboFormaPago.getSelectedItem().toString().equalsIgnoreCase("Selecciona...")) {
-                            
-                        
+
                          // String fechaPago = obtenerFecha(dateFechaPago);
-                         //  System.out.println("fechapago " + fechaPago);
-                        int numprod = jtproductoscoti.getRowCount();
-                        if (numprod > 0) {
-                            ArrayList productos = new ArrayList();
-                            for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
-                                //id    codigobarras   precioventa   cantidad   totalprod  descriprod
-                                productos.add(jtproductoscoti.getValueAt(fila, 6).toString() + "@" + jtproductoscoti.getValueAt(fila, 0).toString() + "@" + jtproductoscoti.getValueAt(fila, 2).toString() + "@" + jtproductoscoti.getValueAt(fila, 3).toString() + "@" + jtproductoscoti.getValueAt(fila, 4).toString() + "@" + jtproductoscoti.getValueAt(fila, 1).toString());
+                            //  System.out.println("fechapago " + fechaPago);
+                            int numprod = jtproductoscoti.getRowCount();
+                            if (numprod > 0) {
+                                ArrayList productos = new ArrayList();
+                                for (int fila = 0; fila < jtproductoscoti.getRowCount(); fila++) {
+                                    //id    codigobarras   precioventa   cantidad   totalprod  descriprod
+                                    productos.add(jtproductoscoti.getValueAt(fila, 6).toString() + "@" + jtproductoscoti.getValueAt(fila, 0).toString() + "@" + jtproductoscoti.getValueAt(fila, 2).toString() + "@" + jtproductoscoti.getValueAt(fila, 3).toString() + "@" + jtproductoscoti.getValueAt(fila, 4).toString() + "@" + jtproductoscoti.getValueAt(fila, 1).toString());
+                                }
+
+                                int cant = jlmonto.getText().trim().length();
+                                String monto = jlmonto.getText().trim().substring(1, cant); //se quita el caracter $        
+                                float monto_final = Float.parseFloat(monto);
+
+                                cobrar_ventafinal cobro = new cobrar_ventafinal();
+                                boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0,
+                                        tipoventa, cliente, comboCliente, txtCostoEnvio, comboFactura, dateFechaPago, comboFormaPago);
+                                vaciartabla();
+                                cargar_informacion();
+                                jctipoventacoti.setSelectedIndex(0);
+                                jcclientecoti.setSelectedIndex(0);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No hay productos en la cotización. ", "Error al registrar la cotizacion", JOptionPane.ERROR_MESSAGE);
                             }
-
-                            int cant = jlmonto.getText().trim().length();
-                            String monto = jlmonto.getText().trim().substring(1, cant); //se quita el caracter $        
-                            float monto_final = Float.parseFloat(monto);
-
-                            cobrar_ventafinal cobro = new cobrar_ventafinal();
-                            boolean exito = cobro.cotizacion(monto_final, 0, "", "EFECTIVO", productos, "SINIMPRIMIR", 0,
-                                    tipoventa, cliente,  comboCliente,txtCostoEnvio,comboFactura,dateFechaPago,comboFormaPago);
-                            vaciartabla();
-                            cargar_informacion();
-                            jctipoventacoti.setSelectedIndex(0);
-                            jcclientecoti.setSelectedIndex(0);
                         } else {
-                            JOptionPane.showMessageDialog(null, "No hay productos en la cotización. ", "Error al registrar la cotizacion", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Selecciona una forma de pago", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                            comboFormaPago.requestFocus();
                         }
-                        }else{
-                             JOptionPane.showMessageDialog(null, "Selecciona una forma de pago", "Advertencia!", JOptionPane.WARNING_MESSAGE);
-                        comboFormaPago.requestFocus(); 
-                        }
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Selecciona una fecha", "Advertencia!", JOptionPane.WARNING_MESSAGE);
                         dateFechaPago.requestFocus();
@@ -907,8 +930,6 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         }
 
     }
-
-   
 
     public void ponerfocoenventa() {
         txtproductocoti.requestFocus();
@@ -973,8 +994,8 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
             System.out.println("VENTA");
             cotizacion_venta();
             /*Frame f = JOptionPane.getFrameForComponent(this);
-        CobrarCajaInicial dialog = new CobrarCajaInicial(f, true);
-        dialog.show();
+             CobrarCajaInicial dialog = new CobrarCajaInicial(f, true);
+             dialog.show();
              */
             //cobrar_venta();
         }

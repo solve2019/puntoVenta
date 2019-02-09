@@ -456,6 +456,17 @@ public class cobrar_ventafinal {
 
         double resultdescuento = (descuento * monto) / 100;
         monto = (float) (monto - resultdescuento);
+        //a monto le sumamos el costo del envio
+       monto+=Double.parseDouble(costoEnvio1);
+        //validamos si tendra factura de ser asi obtenemos el valor del iva
+        //y le sumamos el iva al moto
+      /*  Double valorIva=0.0;
+        if (factura1.equalsIgnoreCase("si")) {
+            valorIva=monto*.16; 
+            monto+=monto+valorIva;
+        }else{
+            
+        }*/
 
         boolean valida = true;
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
