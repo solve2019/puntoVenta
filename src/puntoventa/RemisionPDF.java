@@ -33,7 +33,6 @@ public class RemisionPDF {
         String password = conex.password;
         String ip = conex.ip;
 
-        
         String url = "jdbc:mysql://" + ip + "/" + bd;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -262,9 +261,10 @@ public class RemisionPDF {
                     subtotal = rsR.getString("monto_total");
                     total = Double.parseDouble(rsR.getString("monto_total"));
                     factura = rsR.getString("factura");
+                    iva = total * ivas;
+                    total += iva;
+                    System.out.println("factura " + factura);
                     if (factura.equalsIgnoreCase("si")) {
-                        iva = total * ivas;
-                        total += iva;
 
                     } else {
                         datosDeposito = "BANCO BANAMEX\n"
@@ -319,8 +319,9 @@ public class RemisionPDF {
 
             String datosempresa = datosdeempresa();
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            //String imagen=new File (".").getAbsolutePath ()+"\\reportes\\logo_reporte.jpg";
-            //parametro.put("logo", imagen);		            
+            String imagen = new File(".").getAbsolutePath() + "\\imagenes_configurables\\logo_reporte.jpg";
+            // System.out.println("imagen " +imagen);
+            parametro.put("logo", imagen);
             System.out.println("impresion PDF");
             parametro.put("folio", idcoti);
 
@@ -341,7 +342,8 @@ public class RemisionPDF {
             parametro.put("año", arreFecha[0]);
             parametro.put("formaPago", formaPago1);
             parametro.put("costoenvio", costoEnvio);
-            parametro.put("datos_deposito",datosDeposito);
+            parametro.put("datos_deposito", datosDeposito);
+            //parametro.put("presentacion", folio)
 
             //parametro.put("folio",folio);            
             System.out.println(folio + " " + subtotal + " " + iva + " " + total + " " + fechaPago + " " + factura);
@@ -763,7 +765,5 @@ public class RemisionPDF {
         }
 
     }
-    
-   
 
 }
