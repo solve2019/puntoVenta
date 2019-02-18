@@ -58,17 +58,17 @@ public class NuevoProducto extends javax.swing.JDialog {
         txtexistencia = new javax.swing.JTextField();
         jciva = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
-        jccategoria = new javax.swing.JComboBox<String>();
+        jccategoria = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         txtmayoreo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtcantmayoreo = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jcagranel = new javax.swing.JComboBox<String>();
+        jcagranel = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         txtieps = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jcunidad = new javax.swing.JComboBox<String>();
+        jcunidad = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 204));
@@ -148,7 +148,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         jLabel11.setText("Categoria:");
 
         jccategoria.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jccategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona.." }));
+        jccategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona.." }));
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -174,7 +174,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel14.setText("Agranel (Decimales):");
 
-        jcagranel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
+        jcagranel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
         jcagranel.setToolTipText("Vender con valores decimales");
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -192,7 +192,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel16.setText("Presentación:");
 
-        jcunidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kilos", "Litros", "Gramos", "Bultos", "Jeringa", "Cubeta", "Caja/10PZ", "Equipo 4Bol", "Equipo 4Placas", "Equipo Individual" }));
+        jcunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilos", "Litros", "Gramos", "Bultos", "Jeringa", "Cubeta", "Caja/10PZ", "Equipo 4Bol/4Placas", "Equipo Individual" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -256,9 +256,9 @@ public class NuevoProducto extends javax.swing.JDialog {
                         .addComponent(txtieps, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcunidad, 0, 109, Short.MAX_VALUE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
