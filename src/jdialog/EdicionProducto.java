@@ -104,7 +104,7 @@ String id_prod="";
         jLabel7 = new javax.swing.JLabel();
         txtcompra = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jcagranel = new javax.swing.JComboBox<String>();
+        jcagranel = new javax.swing.JComboBox<>();
         txtmayoreo = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txtventa = new javax.swing.JTextField();
@@ -113,7 +113,7 @@ String id_prod="";
         txtminimo = new javax.swing.JTextField();
         txtcantmayoreo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jccategoria = new javax.swing.JComboBox<String>();
+        jccategoria = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jciva = new javax.swing.JCheckBox();
         txtieps = new javax.swing.JTextField();
@@ -125,11 +125,11 @@ String id_prod="";
         txtpreciopromo = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        jcunidad = new javax.swing.JComboBox<String>();
+        jcunidad = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jcprodcompuesto = new javax.swing.JComboBox<String>();
+        jcprodcompuesto = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtproductos = new javax.swing.JTable();
         txtcb = new javax.swing.JTextField();
@@ -180,7 +180,7 @@ String id_prod="";
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel15.setText("Agranel (Decimales):");
 
-        jcagranel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
+        jcagranel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
         jcagranel.setToolTipText("Vender con valores decimales");
 
         txtmayoreo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -224,7 +224,7 @@ String id_prod="";
         jLabel13.setText("Cant. Min. Mayoreo:");
 
         jccategoria.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jccategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona.." }));
+        jccategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona.." }));
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -281,7 +281,7 @@ String id_prod="";
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel18.setText("Presentación:");
 
-        jcunidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kilos", "Litros", "Gramos", "Bultos", "Jeringa", "Cubeta", "Caja/10PZ", "Equipo 4Bol", "Equipo 4Placas", "Equipo Individual" }));
+        jcunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Caja/10PZ", "Equipo 4Bol/4Placas", "Equipo Individual" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -315,21 +315,6 @@ String id_prod="";
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jcagranel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(24, 24, 24)
-                                    .addComponent(jciva, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jccategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jcunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                             .addGap(145, 145, 145)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -340,8 +325,27 @@ String id_prod="";
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtcantpromo))))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(24, 24, 24)
+                                            .addComponent(jciva, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jccategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel18)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jcunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -351,12 +355,7 @@ String id_prod="";
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtcantmayoreo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(0, 0, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -431,7 +430,7 @@ String id_prod="";
 
         jLabel4.setText("Es producto Compuesto:");
 
-        jcprodcompuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
+        jcprodcompuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
 
         jtproductos.getTableHeader().setReorderingAllowed(false) ;
         jtproductos.setModel(new javax.swing.table.DefaultTableModel(

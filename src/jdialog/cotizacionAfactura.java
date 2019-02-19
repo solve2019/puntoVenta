@@ -24,14 +24,14 @@ import puntoventa.RemisionPDF;
  *
  * @author JOSE
  */
-public class ConsultarCotizaciones extends javax.swing.JDialog {
+public class cotizacionAfactura extends javax.swing.JDialog {
 
     private static TableRowSorter<TableModel> sorter;
 
     /**
      * Creates new form ConsultarCotizaciones
      */
-    public ConsultarCotizaciones(java.awt.Frame parent, boolean modal) {
+    public cotizacionAfactura(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
@@ -61,7 +61,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
         fechaFin = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultar Cotizaciones");
@@ -94,7 +93,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jtcotizaciones);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/carrito.png"))); // NOI18N
-        jButton1.setText("Abrir Cotización");
+        jButton1.setText("Abrir Factura");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -136,14 +135,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/inventario.png"))); // NOI18N
-        jButton2.setText("Generar Factura");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,8 +142,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -205,9 +194,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -261,20 +248,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
         fechaInicio.setDate(null);
         fechaFin.setDate(null);
     }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         int fila = -1;
-        fila = jtcotizaciones.getSelectedRow();
-        if (fila != -1) {
-            String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 0).toString();
-            dispose();
-            RemisionPDF pdfremi = new RemisionPDF();
-            pdfremi.imprimirFactura(idcoti);
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione una cotización de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
     public static String obtenerFecha(JDateChooser fecha) {
         int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
         int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
@@ -311,7 +284,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
 
     public void consultarFechas(String fechaInicio,String fechaFinal) {
         
-        String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFactura='no'";
+        String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFactura='si'";
         conex con = new conex();
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(sql);
@@ -350,20 +323,21 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarCotizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(cotizacionAfactura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarCotizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(cotizacionAfactura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarCotizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(cotizacionAfactura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarCotizaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(cotizacionAfactura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ConsultarCotizaciones dialog = new ConsultarCotizaciones(new javax.swing.JFrame(), true);
+                cotizacionAfactura dialog = new cotizacionAfactura(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -388,7 +362,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
     private com.toedter.calendar.JDateChooser fechaFin;
     private com.toedter.calendar.JDateChooser fechaInicio;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -414,7 +387,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
         DefaultTableModel modelo = (DefaultTableModel) jtcotizaciones.getModel();
         conex con = new conex();
         ResultSet rsR = null;
-        String myQuery = "select * from to_cotizacion where estatusFacturado='no' or estatusFacturado=''  order by id_cotizacion desc";
+        String myQuery = "select * from to_cotizacion where estatusFacturado='si' order by id_cotizacion desc";
         //System.out.println(""+myQuery);
         try {
             Statement st = con.getConnection().createStatement();

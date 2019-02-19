@@ -192,7 +192,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel16.setText("Presentación:");
 
-        jcunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilos", "Litros", "Gramos", "Bultos", "Jeringa", "Cubeta", "Caja/10PZ", "Equipo 4Bol/4Placas", "Equipo Individual" }));
+        jcunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Caja/10PZ", "Equipo 4Bol/4Placas", "Equipo Individual" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

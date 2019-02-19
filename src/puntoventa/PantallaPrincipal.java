@@ -37,6 +37,7 @@ import jdialog.CambiarUsuario;
 import jdialog.ConsultarCotizaciones;
 import jdialog.ConsultarPrecio;
 import jdialog.RespaldoBD;
+import jdialog.cotizacionAfactura;
 import jinternalPanel.Categorias;
 import jinternalPanel.Cierre_caja;
 import jinternalPanel.Clientes;
@@ -158,6 +159,7 @@ public class PantallaPrincipal extends javax.swing.JFrame implements KeyListener
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem36 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
         jMenuItem35 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
@@ -712,6 +714,14 @@ public class PantallaPrincipal extends javax.swing.JFrame implements KeyListener
             }
         });
         jMenu9.add(jMenuItem21);
+
+        jMenuItem36.setText("FACTURA");
+        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem36ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem36);
 
         jMenuItem29.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jMenuItem29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/historico.png"))); // NOI18N
@@ -1306,6 +1316,12 @@ public class PantallaPrincipal extends javax.swing.JFrame implements KeyListener
         notificaciones.show();
     }//GEN-LAST:event_jMenuItem35ActionPerformed
 
+    private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
+        Frame f = JOptionPane.getFrameForComponent(this);
+        cotizacionAfactura coti=new cotizacionAfactura(f,true);
+       coti.setVisible(true);
+    }//GEN-LAST:event_jMenuItem36ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1395,6 +1411,7 @@ public class PantallaPrincipal extends javax.swing.JFrame implements KeyListener
     private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem35;
+    private javax.swing.JMenuItem jMenuItem36;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
