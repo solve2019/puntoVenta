@@ -715,6 +715,7 @@ public class PantallaPrincipal extends javax.swing.JFrame implements KeyListener
         });
         jMenu9.add(jMenuItem21);
 
+        jMenuItem36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/inventario.png"))); // NOI18N
         jMenuItem36.setText("FACTURA");
         jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

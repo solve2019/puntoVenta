@@ -63,7 +63,7 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Consultar Cotizaciones");
+        setTitle("Consultar Facturas");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(250, 248, 248));
@@ -219,10 +219,10 @@ public class cotizacionAfactura extends javax.swing.JDialog {
             String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 0).toString();
             dispose();
             RemisionPDF pdfremi = new RemisionPDF();
-            pdfremi.imprimircotizacion(idcoti);
+            pdfremi.verFacturas(idcoti);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Seleccione una cotización de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Seleccione una factura de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -235,9 +235,8 @@ public class cotizacionAfactura extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNombreClienteKeyPressed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        String fechaInicial = obtenerFecha(fechaInicio);
-        String fechaFinal = obtenerFecha(fechaFin);
-        consultarFechas(fechaInicial, fechaFinal);
+       
+        consultarFechas(fechaInicio, fechaFin);
 
 
     }//GEN-LAST:event_btnConsultarActionPerformed
@@ -269,7 +268,6 @@ public class cotizacionAfactura extends javax.swing.JDialog {
             SimpleDateFormat sdf = new SimpleDateFormat(formato);
             String fechaDelDia = String.valueOf(sdf.format(date));
             diaMesSeleccionado = fechaDelDia.substring(0, 2);
-            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
@@ -282,14 +280,17 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         return fechaDia;
     }
 
-    public void consultarFechas(String fechaInicio,String fechaFinal) {
-        
-        String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFactura='si'";
+    public void consultarFechas(JDateChooser fechaInicio, JDateChooser fechaFin) {
+        if (fechaInicio.getDate() != null) {
+            if (fechaFin.getDate() != null) {
+ String fechaInicial = obtenerFecha(fechaInicio);
+        String fechaFinal = obtenerFecha(fechaFin);
+        String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFacturado='si'";
         conex con = new conex();
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(sql);
-            ps.setString(1, fechaInicio);
-            ps.setString(2,fechaFinal);
+            ps.setString(1, fechaInicial);
+            ps.setString(2, fechaFinal);
             ResultSet rsR = ps.executeQuery();
             vaciartabla();
             DefaultTableModel modelo = (DefaultTableModel) jtcotizaciones.getModel();
@@ -304,6 +305,15 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Error consultarFechas " + e.getMessage());
         }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona una fecha final ");
+                fechaFin.requestFocus();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona una fecha de inicio ");
+            fechaInicio.requestFocus();
+        }
+       
     }
 
     /**
@@ -351,9 +361,8 @@ public class cotizacionAfactura extends javax.swing.JDialog {
 
     public void filtar() {
         RowFilter<TableModel, Object> filtro = null;
-        filtro = RowFilter.regexFilter(txtNombreCliente.getText().toString(), 4);
+        filtro = RowFilter.regexFilter(txtNombreCliente.getText().toString().toUpperCase(), 4);
         sorter.setRowFilter(filtro);
-       
 
     }
 

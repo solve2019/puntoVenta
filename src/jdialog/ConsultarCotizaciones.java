@@ -248,9 +248,8 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNombreClienteKeyPressed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        String fechaInicial = obtenerFecha(fechaInicio);
-        String fechaFinal = obtenerFecha(fechaFin);
-        consultarFechas(fechaInicial, fechaFinal);
+
+        consultarFechas(fechaInicio, fechaFin);
 
 
     }//GEN-LAST:event_btnConsultarActionPerformed
@@ -263,7 +262,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         int fila = -1;
+        int fila = -1;
         fila = jtcotizaciones.getSelectedRow();
         if (fila != -1) {
             String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 0).toString();
@@ -296,7 +295,6 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
             SimpleDateFormat sdf = new SimpleDateFormat(formato);
             String fechaDelDia = String.valueOf(sdf.format(date));
             diaMesSeleccionado = fechaDelDia.substring(0, 2);
-            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
@@ -309,28 +307,41 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
         return fechaDia;
     }
 
-    public void consultarFechas(String fechaInicio,String fechaFinal) {
-        
-        String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFactura='no'";
-        conex con = new conex();
-        try {
-            PreparedStatement ps = con.getConnection().prepareStatement(sql);
-            ps.setString(1, fechaInicio);
-            ps.setString(2,fechaFinal);
-            ResultSet rsR = ps.executeQuery();
-            vaciartabla();
-            DefaultTableModel modelo = (DefaultTableModel) jtcotizaciones.getModel();
-            while (rsR.next()) {
-                modelo.addRow(new Object[]{rsR.getString("id_cotizacion"), rsR.getString("fecha"),
-                    rsR.getString("monto_total"), rsR.getString("usuario_registro"),
-                    rsR.getString("cliente"), rsR.getString("costoEnvio"), rsR.getString("factura"),
-                    rsR.getString("fechaPago"), rsR.getString("formaPago")});
+    public void consultarFechas(JDateChooser fechaInicio, JDateChooser fechaFin) {
+
+        if (fechaInicio.getDate() != null) {
+            if (fechaFin.getDate() != null) {
+                String fechaInicial = obtenerFecha(fechaInicio);
+                String fechaFinal = obtenerFecha(fechaFin);
+                String sql = "select * from to_cotizacion  where DATE(fecha)>=? and DATE(fecha)<=? and estatusFacturado='no'";
+                conex con = new conex();
+                try {
+                    PreparedStatement ps = con.getConnection().prepareStatement(sql);
+                    ps.setString(1, fechaInicial);
+                    ps.setString(2, fechaFinal);
+                    ResultSet rsR = ps.executeQuery();
+                    vaciartabla();
+                    DefaultTableModel modelo = (DefaultTableModel) jtcotizaciones.getModel();
+                    while (rsR.next()) {
+                        modelo.addRow(new Object[]{rsR.getString("id_cotizacion"), rsR.getString("fecha"),
+                            rsR.getString("monto_total"), rsR.getString("usuario_registro"),
+                            rsR.getString("cliente"), rsR.getString("costoEnvio"), rsR.getString("factura"),
+                            rsR.getString("fechaPago"), rsR.getString("formaPago")});
+                    }
+                    sorter = new TableRowSorter<TableModel>(modelo);
+                    jtcotizaciones.setRowSorter(sorter);
+                } catch (Exception e) {
+                    System.out.println("Error consultarFechas " + e.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona una fecha final ");
+                fechaFin.requestFocus();
             }
-            sorter = new TableRowSorter<TableModel>(modelo);
-            jtcotizaciones.setRowSorter(sorter);
-        } catch (Exception e) {
-            System.out.println("Error consultarFechas " + e.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona una fecha de inicio ");
+            fechaInicio.requestFocus();
         }
+
     }
 
     /**
@@ -377,9 +388,8 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
 
     public void filtar() {
         RowFilter<TableModel, Object> filtro = null;
-        filtro = RowFilter.regexFilter(txtNombreCliente.getText().toString(), 4);
+        filtro = RowFilter.regexFilter(txtNombreCliente.getText().toString().toUpperCase(), 4);
         sorter.setRowFilter(filtro);
-       
 
     }
 
