@@ -325,6 +325,7 @@ String existencias;
         }else{
             int cantinueva=Integer.parseInt(cantidadnueva);
             int cantiantes=Integer.parseInt(cantidadanterior);
+            System.out.println("llega este precio a editar cantidad " + precios);
             float preci=Float.parseFloat(precios);
             
             float descuen=Float.parseFloat(descuento);
@@ -354,7 +355,7 @@ String existencias;
             if(cantinueva>=cantidad_minimamayoreo){
                 preci=preciomayoreo;
             }else{
-                preci=precionormal;
+               // preci=precionormal; //comentdao por cesar para que agarre el precio de la tabla
             }
             
             

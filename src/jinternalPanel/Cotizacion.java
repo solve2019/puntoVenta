@@ -650,6 +650,7 @@ public class Cotizacion extends javax.swing.JInternalFrame implements KeyListene
         if (evt.getClickCount() == 2) {
             String producto = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 1).toString();
             String precio = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 2).toString();
+            System.out.println(" mando este precio " + precio);
             String cantidad = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 3).toString();
             String existencia = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 5).toString();
             String descuento = jtproductoscoti.getValueAt(jtproductoscoti.getSelectedRow(), 7).toString();
