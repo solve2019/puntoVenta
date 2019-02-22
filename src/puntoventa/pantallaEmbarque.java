@@ -5,6 +5,12 @@
  */
 package puntoventa;
 
+import com.toedter.calendar.JDateChooser;
+import conexion.conex;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -86,7 +92,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        txtCancelarEmbarque = new javax.swing.JButton();
+        btnCancelarEmbarque = new javax.swing.JButton();
         txtAgregarEmbarque = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -97,10 +103,10 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        txtObservaciones = new javax.swing.JTextArea();
+        fechaEntrega = new com.toedter.calendar.JDateChooser();
+        txtEntrego = new javax.swing.JTextField();
+        txtAutorizo = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -169,6 +175,11 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         });
 
         btnCancelarSoli.setText("Cancelar");
+        btnCancelarSoli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarSoliActionPerformed(evt);
+            }
+        });
 
         tablaSelecion.setModel(tablaSolicitud);
         jScrollPane4.setViewportView(tablaSelecion);
@@ -290,7 +301,12 @@ public class pantallaEmbarque extends javax.swing.JFrame {
 
         jLabel10.setText("piezas:");
 
-        txtCancelarEmbarque.setText("Cancelar");
+        btnCancelarEmbarque.setText("Cancelar");
+        btnCancelarEmbarque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarEmbarqueActionPerformed(evt);
+            }
+        });
 
         txtAgregarEmbarque.setText("Agregar");
         txtAgregarEmbarque.addActionListener(new java.awt.event.ActionListener() {
@@ -310,7 +326,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(253, 253, 253)
-                        .addComponent(txtCancelarEmbarque)
+                        .addComponent(btnCancelarEmbarque)
                         .addGap(18, 18, 18)
                         .addComponent(txtAgregarEmbarque, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
@@ -352,7 +368,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAgregarEmbarque)
-                    .addComponent(txtCancelarEmbarque))
+                    .addComponent(btnCancelarEmbarque))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -394,9 +410,9 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Observaciones");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane7.setViewportView(jTextArea3);
+        txtObservaciones.setColumns(20);
+        txtObservaciones.setRows(5);
+        jScrollPane7.setViewportView(txtObservaciones);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -410,15 +426,15 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                        .addComponent(fechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(2, 2, 2)
-                        .addComponent(jTextField11))
+                        .addComponent(txtAutorizo))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField10)))
+                        .addComponent(txtEntrego)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -427,15 +443,15 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEntrego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAutorizo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -444,6 +460,11 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         );
 
         jButton6.setText("Registrar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -475,7 +496,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarSoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarSoliActionPerformed
-       agregarFilaTbSolicitud();
+        agregarFilaTbSolicitud();
     }//GEN-LAST:event_btnAgregarSoliActionPerformed
 
     private void txtCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCajaActionPerformed
@@ -495,8 +516,20 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNumguiaActionPerformed
 
     private void txtAgregarEmbarqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgregarEmbarqueActionPerformed
-        // TODO add your handling code here:
+        agregarFilaTbEmbarque();
     }//GEN-LAST:event_txtAgregarEmbarqueActionPerformed
+
+    private void btnCancelarEmbarqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarEmbarqueActionPerformed
+        cancelarEmbarque();
+    }//GEN-LAST:event_btnCancelarEmbarqueActionPerformed
+
+    private void btnCancelarSoliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarSoliActionPerformed
+        cancelarSolicitud();
+    }//GEN-LAST:event_btnCancelarSoliActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -542,15 +575,13 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                         if (validarCampos(txtLote)) {
                             if (validarCampos2(txtDescripcion)) {
                                 tablaSolicitud.addRow(new Object[]{
-                                    txtCaja.getText(), 
-                                    txtPiezasSoli.getText(), 
-                                    txtClaveSalud.getText(), 
-                                    txtClaveColos.getText(), 
-                                    txtLote.getText(), 
-                                    txtDescripcion.getText(),
-                                   
-
-                                });
+                                    txtCaja.getText(),
+                                    txtPiezasSoli.getText(),
+                                    txtClaveSalud.getText(),
+                                    txtClaveColos.getText(),
+                                    txtLote.getText(),
+                                    txtDescripcion.getText()});
+                                cancelarSolicitud();
                             } else {
 
                             }
@@ -569,6 +600,170 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         } else {
 
         }
+    }
+
+    public void agregarFilaTbEmbarque() {
+        if (validarCampos(txtCajaColectiva)) {
+            if (validarCampos(txtPiezasEmbar)) {
+                if (validarCampos(txtPesosDim)) {
+                    if (validarCampos(txtNumguia)) {
+
+                        tablaEmbarque.addRow(new Object[]{
+                            txtCajaColectiva.getText(),
+                            txtPiezasEmbar.getText(),
+                            txtPesosDim.getText(),
+                            txtNumguia.getText()});
+                        cancelarEmbarque();
+                    } else {
+
+                    }
+
+                } else {
+
+                }
+            } else {
+
+            }
+        } else {
+
+        }
+    }
+
+    public void registrarEmbarque() {
+        //validamos  que las tablas tengan minimo un registro
+        if (tablaSolicitud.getRowCount() != 0) {
+            if (tablaEmbarque.getRowCount() != 0) {
+                if (fechaEntrega.getDate() != null) {
+                    if (validarCampos(txtEntrego)) {
+                        if (validarCampos(txtAutorizo)) {
+                            //obtenemos los valores de la tabla y los demas campos:)
+                            String descripcionGeneral = txtDescripcionGeneral.getText();
+                            String fecha = obtenerFecha(fechaEntrega);
+                            String entrego = txtEntrego.getText();
+                            String autorizo = txtAutorizo.getText();
+                            String observaciones = txtObservaciones.getText();
+                            //registramos  los datos embarques
+                            conex con2 = new conex();
+                            Connection con=con2.getConnection();
+                            String sql = "insert into embarques(autorizo,entrego,observaciones,descripcionGeneral,fechaEntrega,fechaRegistro,idCotizacion) values(?,?,?,?,NOW())";
+                           
+                            try {
+                                //registramos en embarques
+                                
+                                
+                                PreparedStatement ps = con.prepareStatement(sql);
+                                ps.setString(1, autorizo);
+                                ps.setString(2, entrego);
+                                ps.setString(3, observaciones);
+                                ps.setString(4, descripcionGeneral);
+                                ps.setString(4, fecha);
+                                
+                                ps.executeUpdate();
+
+                                //registramos la tablas solicitud en tb solicitud
+                                for (int i = 0; i < tablaSelecion.getRowCount(); i++) {
+                                    String cajasPT = tablaSelecion.getValueAt(i, 0) + "";
+                                    String piezas = tablaSelecion.getValueAt(i, 0) + "";
+                                    String claveSecto = tablaSelecion.getValueAt(i, 0) + "";
+                                    String claveColo = tablaSelecion.getValueAt(i, 0) + "";
+                                    String lote = tablaSelecion.getValueAt(i, 0) + "";
+                                    String descripcion = tablaSelecion.getValueAt(i, 0) + "";
+                                    //validamos cual tabla tiene  mas filas 
+                                    String sql1 = "insert into solicitud (cajasPT,piezas,claveSalud,claveColostomic,lote,Descripcion,idEmbarques)";
+                                    ps = con.prepareStatement(sql1);
+                                    ps.executeUpdate();
+
+                                }
+
+                                for (int i = 0; i < tablaEmbarque.getRowCount(); i++) {
+                                    String cajaColectiva = tablaEmbarque.getValueAt(i, 0) + "";
+                                    String piezas = tablaEmbarque.getValueAt(i, 1) + "";
+                                    String pesoDimensiones = tablaEmbarque.getValueAt(i, 2) + "";
+                                    String numGuia = tablaEmbarque.getValueAt(i, 3) + "";
+                                    String sql2="insert into embarque (cajaColectiva,piezas,pesoDimensiones,numGuia,idEmbarques) ";
+                                     ps=con.prepareStatement(sql2);
+                                     ps.executeUpdate();
+                                }
+                                
+                                ps.close();
+                                con.close();
+                                con2.desconectar();
+
+                            } catch (Exception e) {
+                                System.out.println("error  al registar embarque " + e.getMessage());
+                            }
+
+                        }
+                    }
+                } else {
+                    fechaEntrega.requestFocus();
+                    JOptionPane.showMessageDialog(null, "Selecciona una fecha", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe ningun registro en la tabla Embarque", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No existe ningun registro en la tabla Solictud", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+
+    public static String obtenerFecha(JDateChooser fecha) {
+        int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
+        int año = fecha.getCalendar().get(Calendar.YEAR);
+        String mes1 = mes + "";
+        String dia1 = dia + "";
+        if (dia <= 9) {
+            dia1 = "0" + dia;
+        }
+        if (mes <= 9) {
+            mes1 = "0" + mes;
+        }
+
+        //prueba
+        String diaMesSeleccionado = "";
+        try {
+            String formato = fecha.getDateFormatString();
+            java.util.Date date = fecha.getDate();
+            SimpleDateFormat sdf = new SimpleDateFormat(formato);
+            String fechaDelDia = String.valueOf(sdf.format(date));
+            diaMesSeleccionado = fechaDelDia.substring(0, 2);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        //String fechaDia = diaMesSeleccionado + "-" + mes1 + "-" + año;
+        String fechaDia = año + "-" + mes1 + "-" + diaMesSeleccionado;
+
+        return fechaDia;
+    }
+
+    public void cancelarSolicitud() {
+        limpiarCampos(txtCaja);
+        limpiarCampos(txtPiezasSoli);
+        limpiarCampos(txtClaveSalud);
+        limpiarCampos(txtClaveColos);
+        limpiarCampos(txtLote);
+        limpiarCampos(txtDescripcion);
+    }
+
+    public void cancelarEmbarque() {
+        limpiarCampos(txtCajaColectiva);
+        limpiarCampos(txtPiezasEmbar);
+        limpiarCampos(txtPesosDim);
+        limpiarCampos(txtNumguia);
+    }
+
+    public void limpiarCampos(JTextField texto) {
+        texto.setText("");
+    }
+
+    public void limpiarCampos(JTextArea texto) {
+        texto.setText("");
     }
 
     public boolean validarCampos(JTextField texto) {
@@ -594,10 +789,11 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarSoli;
+    private javax.swing.JButton btnCancelarEmbarque;
     private javax.swing.JButton btnCancelarSoli;
+    private com.toedter.calendar.JDateChooser fechaEntrega;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -629,20 +825,19 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
     private javax.swing.JTable tablaSelecion;
     private javax.swing.JButton txtAgregarEmbarque;
+    private javax.swing.JTextField txtAutorizo;
     private javax.swing.JTextField txtCaja;
     private javax.swing.JTextField txtCajaColectiva;
-    private javax.swing.JButton txtCancelarEmbarque;
     private javax.swing.JTextField txtClaveColos;
     private javax.swing.JTextField txtClaveSalud;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextArea txtDescripcionGeneral;
+    private javax.swing.JTextField txtEntrego;
     private javax.swing.JTextField txtLote;
     private javax.swing.JTextField txtNumguia;
+    private javax.swing.JTextArea txtObservaciones;
     private javax.swing.JTextField txtPesosDim;
     private javax.swing.JTextField txtPiezasEmbar;
     private javax.swing.JTextField txtPiezasSoli;
