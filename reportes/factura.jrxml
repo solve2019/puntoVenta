@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="remision" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="49"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="folio" class="java.lang.String"/>
 	<parameter name="subtotal" class="java.lang.String"/>
 	<parameter name="iva" class="java.lang.String"/>
@@ -61,7 +61,7 @@
 				<textElement>
 					<font fontName="Arial Black"/>
 				</textElement>
-				<text><![CDATA[No. Cotización]]></text>
+				<text><![CDATA[No. Factura]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="455" y="29" width="100" height="20"/>

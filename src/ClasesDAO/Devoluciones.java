@@ -11,14 +11,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-/**
+/** 
  *
- * @author desarrollo8 pruebas nueva proyecto completo
+ * @author desarrollo8 subiendo
  */
-public class Devoluciones {
+public class Devoluciones { 
     public boolean devolucion(String idventa, float cantidad){
      double iva=obteniva();
      boolean valida=true;
+     
        String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
        //  Database credentials
        String USER = conex.login;
