@@ -7,6 +7,7 @@ package jdialog;
 
 import com.toedter.calendar.JDateChooser;
 import conexion.conex;
+import java.awt.Frame;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -268,7 +269,8 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
             String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 0).toString();
             dispose();
             RemisionPDF pdfremi = new RemisionPDF();
-            pdfremi.imprimirFactura(idcoti);
+            Frame f = JOptionPane.getFrameForComponent(this);
+            pdfremi.imprimirFactura(idcoti, f);
 
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una cotización de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);

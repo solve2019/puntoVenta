@@ -9,6 +9,7 @@ import com.toedter.calendar.JDateChooser;
 import conexion.conex;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
@@ -26,8 +27,10 @@ public class pantallaEmbarque extends javax.swing.JFrame {
      * Creates new form pantallaEmbarque
      */
     DefaultTableModel tablaSolicitud, tablaEmbarque;
+    public static String idCoti = "";//viene de con RemisionesPDF.java imprimirFactura
 
     public pantallaEmbarque() {
+
         tablaSolicitud = new DefaultTableModel();
         tablaSolicitud.setColumnIdentifiers(new Object[]{"Cajas de P.T.", "Piezas", "Clave de sector salud", "Clave colostomic", "Lote", "Descripcion"});
 
@@ -96,7 +99,6 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         txtAgregarEmbarque = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -108,6 +110,8 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         txtEntrego = new javax.swing.JTextField();
         txtAutorizo = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,9 +139,17 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "seleccion", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "1.-Solicitud", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         txtClaveColos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -279,7 +291,8 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "2.- Embarque", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "2.- Embarque", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        jPanel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         txtNumguia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,30 +389,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jButton5.setText("Cancelar");
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ultimos Datos", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "3.-Ultimos Datos", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         jLabel1.setText("Fecha de Entrega:");
 
@@ -414,6 +404,13 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         txtObservaciones.setRows(5);
         jScrollPane7.setViewportView(txtObservaciones);
 
+        jButton6.setText("Registrar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -426,7 +423,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                        .addComponent(fechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(2, 2, 2)
@@ -434,7 +431,8 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEntrego)))
+                        .addComponent(txtEntrego))
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -443,7 +441,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(fechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -456,40 +454,67 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        jButton6.setText("Registrar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel16.setText("Registro de Guia de Embarque");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16)
+                .addContainerGap(608, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel16)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -528,8 +553,13 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarSoliActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        registrarEmbarque();
+
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        JOptionPane.showMessageDialog(null, "Registra el embarque para poder cerrar la ventana", "Advertecia!", JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -644,33 +674,51 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                             String observaciones = txtObservaciones.getText();
                             //registramos  los datos embarques
                             conex con2 = new conex();
-                            Connection con=con2.getConnection();
-                            String sql = "insert into embarques(autorizo,entrego,observaciones,descripcionGeneral,fechaEntrega,fechaRegistro,idCotizacion) values(?,?,?,?,NOW())";
-                           
+                            Connection con = con2.getConnection();
+                            String sql = "insert into tbembarques(autorizo,entrego,observaciones,descripcionGeneral,fechaEntrega,fechaRegistro,idCotizacion) values(?,?,?,?,?,NOW(),?)";
+
                             try {
                                 //registramos en embarques
-                                
-                                
+
                                 PreparedStatement ps = con.prepareStatement(sql);
                                 ps.setString(1, autorizo);
                                 ps.setString(2, entrego);
                                 ps.setString(3, observaciones);
                                 ps.setString(4, descripcionGeneral);
-                                ps.setString(4, fecha);
-                                
+                                ps.setString(5, fecha);
+                                ps.setString(6, idCoti);
+                                //falta idCoti
+
                                 ps.executeUpdate();
+
+                                //obtenemos el idDel ultimo registro de tbEmbarques
+                                String slqId = "select idEmbarque from tbembarques order by idEmbarque desc limit 1;";
+                                ps = con.prepareStatement(slqId);
+                                ResultSet rs = ps.executeQuery();
+                                String idEmbarque = "";
+                                while (rs.next()) {
+                                    idEmbarque = rs.getString("idEmbarque");
+                                }
 
                                 //registramos la tablas solicitud en tb solicitud
                                 for (int i = 0; i < tablaSelecion.getRowCount(); i++) {
                                     String cajasPT = tablaSelecion.getValueAt(i, 0) + "";
-                                    String piezas = tablaSelecion.getValueAt(i, 0) + "";
-                                    String claveSecto = tablaSelecion.getValueAt(i, 0) + "";
-                                    String claveColo = tablaSelecion.getValueAt(i, 0) + "";
-                                    String lote = tablaSelecion.getValueAt(i, 0) + "";
-                                    String descripcion = tablaSelecion.getValueAt(i, 0) + "";
+                                    String piezas = tablaSelecion.getValueAt(i, 1) + "";
+                                    String claveSecto = tablaSelecion.getValueAt(i, 2) + "";
+                                    String claveColo = tablaSelecion.getValueAt(i, 3) + "";
+                                    String lote = tablaSelecion.getValueAt(i, 4) + "";
+                                    String descripcion = tablaSelecion.getValueAt(i, 5) + "";
                                     //validamos cual tabla tiene  mas filas 
-                                    String sql1 = "insert into solicitud (cajasPT,piezas,claveSalud,claveColostomic,lote,Descripcion,idEmbarques)";
+                                    String sql1 = "insert into solicitud (cajasPT,piezas,claveSalud,claveColostomic,lote,Descripcion,idTbEmbarques)"
+                                            + "values(?,?,?,?,?,?,?)";
                                     ps = con.prepareStatement(sql1);
+                                    ps.setString(1, cajasPT);
+                                    ps.setString(2, piezas);
+                                    ps.setString(3, claveSecto);
+                                    ps.setString(4, claveColo);
+                                    ps.setString(5, lote);
+                                    ps.setString(6, descripcion);
+                                    ps.setString(7, idEmbarque);
                                     ps.executeUpdate();
 
                                 }
@@ -680,15 +728,29 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                     String piezas = tablaEmbarque.getValueAt(i, 1) + "";
                                     String pesoDimensiones = tablaEmbarque.getValueAt(i, 2) + "";
                                     String numGuia = tablaEmbarque.getValueAt(i, 3) + "";
-                                    String sql2="insert into embarque (cajaColectiva,piezas,pesoDimensiones,numGuia,idEmbarques) ";
-                                     ps=con.prepareStatement(sql2);
-                                     ps.executeUpdate();
+                                    String sql2 = "insert into embarques (cajaColectiva,piezas,pesoDimensiones,numGuia,idTbEmbarques) "
+                                            + "values (?,?,?,?,?)";
+                                    ps = con.prepareStatement(sql2);
+                                    ps.setString(1, cajaColectiva);
+                                    ps.setString(2, piezas);
+                                    ps.setString(3, pesoDimensiones);
+                                    ps.setString(4, numGuia);
+                                    ps.setString(5, idEmbarque);
+                                    ps.executeUpdate();
                                 }
-                                
+                                vaciartabla(tablaEmbarque);
+                                vaciartabla(tablaSolicitud);
+                                limpiarCampos(txtDescripcionGeneral);
+                                limpiarCampos(txtObservaciones);
+                                limpiarCampos(txtAutorizo);
+                                limpiarCampos(txtEntrego);
+                                fechaEntrega.setDate(null);
+                                JOptionPane.showMessageDialog(null, "Registro exitoso", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+
                                 ps.close();
                                 con.close();
                                 con2.desconectar();
-
+                                dispose();
                             } catch (Exception e) {
                                 System.out.println("error  al registar embarque " + e.getMessage());
                             }
@@ -707,6 +769,14 @@ public class pantallaEmbarque extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No existe ningun registro en la tabla Solictud", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
 
+    }
+
+    public void vaciartabla(DefaultTableModel tabla) {
+
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            tabla.removeRow(i);
+            i -= 1;
+        }
     }
 
     public static String obtenerFecha(JDateChooser fecha) {
@@ -792,7 +862,6 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelarEmbarque;
     private javax.swing.JButton btnCancelarSoli;
     private com.toedter.calendar.JDateChooser fechaEntrega;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -801,6 +870,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -813,6 +883,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

@@ -2,6 +2,7 @@ package puntoventa;
 
 import ClasesDAO.accesoSistema;
 import conexion.conex;
+import java.awt.Frame;
 import java.awt.TextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -192,7 +193,8 @@ public class RemisionPDF {
             System.out.println("Mensaje de Error:" + j.getMessage());
         }
     }
-public void imprimircotizacion(String idcoti) {
+
+    public void imprimircotizacion(String idcoti) {
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -365,6 +367,7 @@ public void imprimircotizacion(String idcoti) {
         }
 
     }
+
     public void verFacturas(String idcoti) {
         java.sql.Connection conn = null;
         String bd = conex.bd;
@@ -539,7 +542,7 @@ public void imprimircotizacion(String idcoti) {
 
     }
 
-    public void imprimirFactura(String idcoti) {
+    public void imprimirFactura(String idcoti,Frame f) {
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -583,29 +586,32 @@ public void imprimircotizacion(String idcoti) {
             //String imagen=new File (".").getAbsolutePath ()+"\\reportes\\logo.jpg";
 
             double ivas = obteniva();
+            System.out.println("modificamos estatus coti");
+            
 
             String folio = "", subtotal = "", cliente = "", costoEnvio = "", factura = "", fechaPago = "";
             conex con = new conex();
+             modificarEstatusCotizacion(con.getConnection(), idcoti);
             double iva = 0.0, total = 0.0;
             String datosDeposito = "BANCO BANAMEX\n"
                     + "A NOMOBRE: COLOSTOMIC SA DE CV\n"
                     + "NUMERO CUENTA: 8175007 SUCURSAL 7003\n"
                     + "CUENTA CLABE: 002540700381750073";
-            String direccion = "", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
+            String direccion = "",numFactura="", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
             try {
 
                 /* String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
                  + "monto_total+(monto_total+costoEnvio)*" + ivas + ") as total,cliente,costoEnvio,factura,fechaPago,formaPago "
                  + "from to_cotizacion where id_cotizacion='" + idcoti + "'";*/
                 String myQuery = "select DATE(fecha) as fecha, monto_total,"
-                        + "cliente,costoEnvio,factura,fechaPago,formaPago "
+                        + "cliente,costoEnvio,factura,fechaPago,formaPago,numFactura "
                         + "from to_cotizacion where id_cotizacion='" + idcoti + "'";
 
                 ResultSet rsR = null;
                 Statement st = con.getConnection().createStatement();
                 rsR = st.executeQuery(myQuery);
                 while (rsR.next()) {
-
+                     numFactura=rsR.getString("numFactura");
                     subtotal = rsR.getString("monto_total");
                     total = Double.parseDouble(rsR.getString("monto_total"));
                     factura = rsR.getString("factura");
@@ -661,7 +667,7 @@ public void imprimircotizacion(String idcoti) {
 
                 rsR.close();
                 st.close();
-              
+
             } catch (SQLException ex) {
             }
 
@@ -672,6 +678,8 @@ public void imprimircotizacion(String idcoti) {
             parametro.put("logo", imagen);
             System.out.println("impresion PDF");
             parametro.put("folio", idcoti);
+            parametro.put("numFactura", numFactura);
+            
 
             parametro.put("datosempresa", datosempresa);
             parametro.put("subtotal", subtotal);
@@ -696,15 +704,20 @@ public void imprimircotizacion(String idcoti) {
             //parametro.put("folio",folio);            
             System.out.println(folio + " " + subtotal + " " + iva + " " + total + " " + fechaPago + " " + factura);
 //registramos el folio
-            if(registrarFolio(con.getConn(), total + "", "0.00", "0.00", "", accesoSistema.nombreuser, formaPago1, accesoSistema.iduser,
-                    "0.00", iva + "", "0.00", cliente)){
-                modificarEstatusCotizacion(con.getConnection(), idcoti);
+            if (registrarFolio(con.getConn(), total + "", "0.00", "0.00", "", accesoSistema.nombreuser, formaPago1, accesoSistema.iduser,
+                    "0.00", iva + "", "0.00", cliente)) {
+               
                 obtenerProductos(con.getConnection(), idcoti);
-                    
-            }else{
+
+                //abrimos la pantalla embarque
+                pantallaEmbarque.idCoti = idcoti;
                 
+                pantallaEmbarque em = new pantallaEmbarque();
+                em.setVisible(true);
+            } else {
+
             }
-           
+
             //Reporte dise�ado y compilado con iReport
             JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, conn);
             //jasperPrint.setPageHeight(100);
@@ -713,9 +726,9 @@ public void imprimircotizacion(String idcoti) {
             //JasperPrintManager.printReport(jasperPrint, false);
             //Se lanza el Viewer de Jasper, no termina aplicaci�n al salir
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
-            jviewer.setTitle("Cotizacion");
+            jviewer.setTitle("Factura");
             jviewer.setVisible(true);
-  con.desconectar();
+            con.desconectar();
         } catch (Exception j) {
             System.out.println("Mensaje de Error:" + j.getMessage());
         }
@@ -723,16 +736,35 @@ public void imprimircotizacion(String idcoti) {
     }
 //cesar
 
-    public void modificarEstatusCotizacion(Connection con,String idCoti){
-        String sql="update to_cotizacion set estatusFacturado='si' where id_cotizacion='"+idCoti+"'";
+    public void modificarEstatusCotizacion(Connection con, String idCoti) {
+
+        String sql1 = "select max(numFactura) as contador from to_cotizacion";
+
         try {
-            PreparedStatement ps=con.prepareStatement(sql);
-            ps.executeUpdate();
-            System.out.println("se  modifico el estatus " +idCoti);
+
+            PreparedStatement ps = con.prepareStatement(sql1);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                 int conta =0;
+                if (rs.getObject("contador")==null) {
+                    conta=1;
+                }else{
+                     conta=rs.getInt("contador")+1;
+                }
+                    
+               
+                System.out.println("con " + con);
+                String sql2 = "update to_cotizacion set estatusFacturado='si',numFactura='" + conta + "' where id_cotizacion='" + idCoti + "'";
+                ps = con.prepareStatement(sql2);
+                ps.executeUpdate();
+            }
+
+            System.out.println("se  modifico el estatus " + idCoti);
         } catch (Exception e) {
-            System.out.println("Error  en  modificarEstatusCotizacion " +  e.getMessage());
+            System.out.println("Error  en  modificarEstatusCotizacion " + e.getMessage());
         }
     }
+
     public boolean registrarFolio(Connection con, String monto, String pagoefectivo, String referenciabanco,
             String referenciamixto, String nombreuser, String formaPago, String iduser,
             String resultdescuento, String iva, String ieps, String nombrecliente) {
@@ -757,81 +789,80 @@ public void imprimircotizacion(String idcoti) {
 
     }
 
-    public void obtenerProductos(Connection con,String idCoti){
-        int ultimoFol=ultimoFolio(con);
-                    System.out.println("obtenemos ultimo folio " + ultimoFol);
-        String sql="select monto_total+(monto_total  *.16)as total,idproducto,cantidad,precio  from to_cotizacion as c  inner join   to_cotizacion_prod as  cp on c.id_cotizacion=cp.id_coti where id_coti='"+idCoti+"'";
+    public void obtenerProductos(Connection con, String idCoti) {
+        int ultimoFol = ultimoFolio(con);
+        System.out.println("obtenemos ultimo folio " + ultimoFol);
+        String sql = "select monto_total+(monto_total  *.16)as total,idproducto,cantidad,precio  from to_cotizacion as c  inner join   to_cotizacion_prod as  cp on c.id_cotizacion=cp.id_coti where id_coti='" + idCoti + "'";
         try {
-            System.out.println("obtner prod "  + sql);
-            PreparedStatement ps=con.prepareStatement(sql);
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            System.out.println("obtner prod " + sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 //obtnemos la cantidad 
-                String total=rs.getString("total");
-                String idPro=rs.getString("idproducto");
-                int can=rs.getInt("cantidad");
-                String precio=rs.getString("precio");
+                String total = rs.getString("total");
+                String idPro = rs.getString("idproducto");
+                int can = rs.getInt("cantidad");
+                String precio = rs.getString("precio");
                 System.out.println("registramos la venta");
-                registrarVenta(con, idPro, can+"", precio, total, ultimoFol+"", "0.00");
+                registrarVenta(con, idPro, can + "", precio, total, ultimoFol + "", "0.00");
                 System.out.println("vamos a editar la cantidad producto ");
-                
-                int nuevaCantidad=obtenerCantidadProductos(con,idPro)-rs.getInt("cantidad");
-                editarCantidaPro(con, nuevaCantidad+"", idPro);
-                
-                
+
+                int nuevaCantidad = obtenerCantidadProductos(con, idPro) - rs.getInt("cantidad");
+                editarCantidaPro(con, nuevaCantidad + "", idPro);
+
             }
             ps.close();
             rs.close();
         } catch (Exception e) {
         }
     }
-    
-    public void editarCantidaPro(Connection con,String nuevaCantidad,String idPro){
-     String sql="update tc_productos set existencia='"+nuevaCantidad+"' where idproducto='"+idPro+"'";   
+
+    public void editarCantidaPro(Connection con, String nuevaCantidad, String idPro) {
+        String sql = "update tc_productos set existencia='" + nuevaCantidad + "' where idproducto='" + idPro + "'";
         try {
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
             System.out.println("editado cantidad " + idPro);
         } catch (Exception e) {
-            System.out.println("Error en editarCantidadPro  "+ e.getMessage());
+            System.out.println("Error en editarCantidadPro  " + e.getMessage());
         }
     }
-    public int obtenerCantidadProductos(Connection con,String idPro){
-        int  can=0;
-        String sql="select existencia from   tc_productos where idproducto='"+idPro+"'";
+
+    public int obtenerCantidadProductos(Connection con, String idPro) {
+        int can = 0;
+        String sql = "select existencia from   tc_productos where idproducto='" + idPro + "'";
         try {
-            PreparedStatement  ps=con.prepareStatement(sql);
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
-               can=rs.getInt("existencia"); 
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                can = rs.getInt("existencia");
             }
-            System.out.println("cantidad "  + can);
-            
+            System.out.println("cantidad " + can);
+
             System.out.println("tenemos cantidad");
         } catch (Exception e) {
             System.out.println("Error  al obtenerCantidadProductos " + e.getMessage());
         }
         return can;
     }
-    
-    
-    public boolean registrarVenta(Connection con,String idproducto,String cantidad,String precio,String  total,String folio,String ieps) {
-         String sql="insert into to_ventas(idproducto,cantidad,precio,total,folio,fecha_mov,ieps)"
-                 + "values('"+idproducto+"','"+cantidad+"','"+precio+"','"+total+"','"+folio+"',now(),'"+ieps+"')";
-         
-         boolean ban=false;
-         System.out.println("registro  la venta " +sql);
-         try {
-            PreparedStatement   ps = con.prepareStatement(sql);
+
+    public boolean registrarVenta(Connection con, String idproducto, String cantidad, String precio, String total, String folio, String ieps) {
+        String sql = "insert into to_ventas(idproducto,cantidad,precio,total,folio,fecha_mov,ieps)"
+                + "values('" + idproducto + "','" + cantidad + "','" + precio + "','" + total + "','" + folio + "',now(),'" + ieps + "')";
+
+        boolean ban = false;
+        System.out.println("registro  la venta " + sql);
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
-            ban=true;
+            ban = true;
             ps.close();
-             System.out.println("registro  la venta");
+            System.out.println("registro  la venta");
         } catch (Exception e) {
-             System.out.println("Error registrar venta " + e.getMessage());
+            System.out.println("Error registrar venta " + e.getMessage());
         }
-         
-         return ban;
+
+        return ban;
     }
 
     public void cargar_clientes() {
@@ -847,10 +878,10 @@ public void imprimircotizacion(String idcoti) {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                idCliente = rs.getInt("idcliente"); 
+            while (rs.next()) {
+                idCliente = rs.getInt("idcliente");
             }
-           
+
             ps.close();
             rs.close();
         } catch (Exception e) {
@@ -866,10 +897,10 @@ public void imprimircotizacion(String idcoti) {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                 ultimoFolio = rs.getInt("no_folio");
+            while (rs.next()) {
+                ultimoFolio = rs.getInt("no_folio");
             }
-           
+
             ps.close();
             rs.close();
         } catch (Exception e) {
