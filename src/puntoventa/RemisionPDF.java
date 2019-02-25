@@ -367,8 +367,7 @@ public class RemisionPDF {
         }
 
     }
-
-    public void verFacturas(String idcoti) {
+ public void verFacturas(String idcoti) {
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -534,6 +533,190 @@ public class RemisionPDF {
             //Se lanza el Viewer de Jasper, no termina aplicaci�n al salir
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Cotizacion");
+            jviewer.setVisible(true);
+
+        } catch (Exception j) {
+            System.out.println("Mensaje de Error:" + j.getMessage());
+        }
+
+    }
+    public void verEmbarques(String idcoti) {
+       
+        System.out.println("coti " +idcoti);
+        java.sql.Connection conn = null;
+        String bd = conex.bd;
+        String login = conex.login;
+        String password = conex.password;
+        String ip = conex.ip;
+
+        String url = "jdbc:mysql://" + ip + "/" + bd;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url, login, password);
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            String master = "reportes//embarques.jasper";   //poner la direccion donde se encuentra el archivo .jasper
+
+            //  System.out.println("master" + master);
+            if (master == null) {
+                System.out.println("No encuentro el archivo del reporte maestro.");
+                JOptionPane.showMessageDialog(null, "No se pudo imprimir el ticket, no esta el archivo jasper.", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+            }
+
+            JasperReport masterReport = null;
+            try {
+                masterReport = (JasperReport) JRLoader.loadObject(master);
+            } catch (JRException e1) {
+                System.out.println("Error cargando el reporte de cotizacion: " + e1.getMessage());
+                JOptionPane.showMessageDialog(null, "No se pudo imprimir la cotizacion." + e1.getMessage(), "Mensaje", JOptionPane.PLAIN_MESSAGE);
+
+            }
+
+            //este es el par�metro, se pueden agregar m�s par�metros
+            //basta con poner mas parametro.put
+            //JOptionPane.showMessageDialog(null,"Se esta generando el reporte.","Mensaje",JOptionPane.PLAIN_MESSAGE);    
+            Map<String, String> parametro = new HashMap<String, String>();
+            //parametro.put("area",centro); 
+            //System.out.println (new File ("").getAbsolutePath ()+"\\reportes\\logo.jpg");
+            //String imagen=new File (".").getAbsolutePath ()+"\\reportes\\logo.jpg";
+
+            double ivas = obteniva();
+
+            String folio = "", subtotal = "", cliente = "", costoEnvio = "", factura = "", fechaPago = "";
+            conex con = new conex();
+            double iva = 0.0, total = 0.0;
+            String datosDeposito = "BANCO BANAMEX\n"
+                    + "A NOMOBRE: COLOSTOMIC SA DE CV\n"
+                    + "NUMERO CUENTA: 8175007 SUCURSAL 7003\n"
+                    + "CUENTA CLABE: 002540700381750073";
+            String direccion = "",correo="", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
+            try {
+
+                /* String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
+                 + "monto_total+(monto_total+costoEnvio)*" + ivas + ") as total,cliente,costoEnvio,factura,fechaPago,formaPago "
+                 + "from to_cotizacion where id_cotizacion='" + idcoti + "'";*/
+                String myQuery = "select DATE(fecha) as fecha, monto_total,"
+                        + "cliente,costoEnvio,factura,fechaPago,formaPago "
+                        + "from to_cotizacion where  id_cotizacion='" + idcoti + "'";
+                System.out.println("consulta homi" + myQuery);
+                ResultSet rsR = null;
+                Statement st = con.getConnection().createStatement();
+                rsR = st.executeQuery(myQuery);
+                while (rsR.next()) {
+
+                    subtotal = rsR.getString("monto_total");
+                    total = Double.parseDouble(rsR.getString("monto_total"));
+                    factura = rsR.getString("factura");
+                    iva = total * ivas;
+                    total += iva;
+                    System.out.println("factura " + factura);
+                    if (factura.equalsIgnoreCase("si")) {
+
+                    } else {
+                        datosDeposito = "BANCO BANAMEX\n"
+                                + "A NOMOBRE: VICTOR MANUEL BARRANCO JOYNER\n"
+                                + "NUMERO DE CUENTA: 801 5718\n"
+                                + "SUCURSAL: 500\n"
+                                + "PAGO DESDE CUALQUIER OXXO\n"
+                                + "CUENTA CLABE: 002 540 050 080 157 180\n"
+                                + "BANCO BANAMEX \n"
+                                + "5204 1671 3241 0697";
+                    }
+
+                    cliente = rsR.getString("cliente");
+                    costoEnvio = rsR.getString("costoEnvio");
+                    factura = rsR.getString("factura");
+                    fechaPago = rsR.getString("fechaPago");
+                    fechaRegistro = rsR.getString("fecha");
+                    formaPago1 = rsR.getString("formaPago");
+                }
+                //**consultar clientes
+
+                ResultSet rs = null;
+                String myQueryCliente = "select concat(calle,' ',colonia,' ',noext,' ',municipio) as direccion,estado,rfc,FormaPago,telefono,email from tc_clientes where nombre_completo='" + cliente + "'\n"
+                        + ";";
+                System.out.println("mysq " + myQueryCliente);
+                try {
+                    Statement stCliente = con.getConnection().createStatement();
+                    rs = stCliente.executeQuery(myQueryCliente);
+                    while (rs.next()) {
+                       
+                        direccion = rs.getString("direccion");
+                        telefono = rs.getString("telefono");
+                        rfc = rs.getString("rfc");
+                        estado = rs.getString("estado");
+                        formaPago = rs.getString("FormaPago");
+                        correo=rs.getString("email");
+                        
+
+                    }
+
+                    rs.close();
+                    stCliente.close();
+
+                } catch (SQLException ex) {
+                    System.out.println("algo mal en traer cliente " + ex.getMessage());
+                }
+                //termina consultar clientes
+
+                rsR.close();
+                st.close();
+                con.desconectar();
+            } catch (SQLException ex) {
+            }
+
+            String datosempresa = datosdeempresa();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String imagen = new File(".").getAbsolutePath() + "\\imagenes_configurables\\logo_reporte.jpg";
+            // System.out.println("imagen " +imagen);
+            // parametro.put("logo", imagen);
+            parametro.put("idCoti", idcoti);
+            parametro.put("cliente", cliente);
+             parametro.put("direccion", direccion);
+             parametro.put("telefono", telefono);
+             parametro.put("correo", correo);
+             parametro.put("datos_deposito", datosDeposito);
+           
+            System.out.println("impresion PDF");
+           /* parametro.put("folio", idcoti);
+
+            parametro.put("datosempresa", datosempresa);
+            parametro.put("subtotal", subtotal);
+            parametro.put("iva", iva + "");
+            parametro.put("total", total + "");
+            
+            parametro.put("fechaPago", fechaPago);
+            parametro.put("factura", factura);
+            parametro.put("rfc", rfc);
+           
+            parametro.put("ciudad", estado);
+       
+            String arreFecha[] = fechaRegistro.split("-");
+            parametro.put("dia", arreFecha[2]);
+            parametro.put("mes", arreFecha[1]);
+            parametro.put("año", arreFecha[0]);
+            parametro.put("formaPago", formaPago1);
+            parametro.put("costoenvio", costoEnvio);*/
+            
+            //parametro.put("presentacion", folio)
+
+            //parametro.put("folio",folio);            
+            System.out.println(folio + " " + subtotal + " " + iva + " " + total + " " + fechaPago + " " + factura);
+
+            //Reporte dise�ado y compilado con iReport
+            JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, conn);
+            //jasperPrint.setPageHeight(100);
+            //jasperPrint.setPageWidth(80);
+
+            //JasperPrintManager.printReport(jasperPrint, false);
+            //Se lanza el Viewer de Jasper, no termina aplicaci�n al salir
+            JasperViewer jviewer = new JasperViewer(jasperPrint, false);
+            jviewer.setTitle("Guia embarque");
             jviewer.setVisible(true);
 
         } catch (Exception j) {

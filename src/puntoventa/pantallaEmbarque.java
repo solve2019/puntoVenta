@@ -681,10 +681,10 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                 //registramos en embarques
 
                                 PreparedStatement ps = con.prepareStatement(sql);
-                                ps.setString(1, autorizo);
-                                ps.setString(2, entrego);
-                                ps.setString(3, observaciones);
-                                ps.setString(4, descripcionGeneral);
+                                ps.setString(1, autorizo.toUpperCase());
+                                ps.setString(2, entrego.toUpperCase());
+                                ps.setString(3, observaciones.toUpperCase());
+                                ps.setString(4, descripcionGeneral.toUpperCase());
                                 ps.setString(5, fecha);
                                 ps.setString(6, idCoti);
                                 //falta idCoti
@@ -712,12 +712,12 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                     String sql1 = "insert into solicitud (cajasPT,piezas,claveSalud,claveColostomic,lote,Descripcion,idTbEmbarques)"
                                             + "values(?,?,?,?,?,?,?)";
                                     ps = con.prepareStatement(sql1);
-                                    ps.setString(1, cajasPT);
-                                    ps.setString(2, piezas);
-                                    ps.setString(3, claveSecto);
-                                    ps.setString(4, claveColo);
-                                    ps.setString(5, lote);
-                                    ps.setString(6, descripcion);
+                                    ps.setString(1, cajasPT.toUpperCase());
+                                    ps.setString(2, piezas.toUpperCase());
+                                    ps.setString(3, claveSecto.toUpperCase());
+                                    ps.setString(4, claveColo.toUpperCase());
+                                    ps.setString(5, lote.toUpperCase());
+                                    ps.setString(6, descripcion.toUpperCase());
                                     ps.setString(7, idEmbarque);
                                     ps.executeUpdate();
 
@@ -731,10 +731,10 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                     String sql2 = "insert into embarques (cajaColectiva,piezas,pesoDimensiones,numGuia,idTbEmbarques) "
                                             + "values (?,?,?,?,?)";
                                     ps = con.prepareStatement(sql2);
-                                    ps.setString(1, cajaColectiva);
-                                    ps.setString(2, piezas);
-                                    ps.setString(3, pesoDimensiones);
-                                    ps.setString(4, numGuia);
+                                    ps.setString(1, cajaColectiva.toUpperCase());
+                                    ps.setString(2, piezas.toUpperCase());
+                                    ps.setString(3, pesoDimensiones.toUpperCase());
+                                    ps.setString(4, numGuia.toUpperCase());
                                     ps.setString(5, idEmbarque);
                                     ps.executeUpdate();
                                 }

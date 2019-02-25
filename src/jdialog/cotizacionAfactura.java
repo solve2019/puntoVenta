@@ -61,6 +61,7 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         fechaFin = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultar Facturas");
@@ -77,11 +78,11 @@ public class cotizacionAfactura extends javax.swing.JDialog {
 
             },
             new String [] {
-                "#", "Fecha", "Monto", "Usuario Atendio", "Cliente", "Costo Envio", "Factura", "Fecha Pago", "Forma pago"
+                "#", "Fecha", "Monto", "Usuario Atendio", "Cliente", "Costo Envio", "Factura", "Fecha Pago", "Forma pago", "idCoti"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -135,6 +136,14 @@ public class cotizacionAfactura extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/carrito.png"))); // NOI18N
+        jButton2.setText("Abrir Embarque");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,6 +151,8 @@ public class cotizacionAfactura extends javax.swing.JDialog {
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -194,7 +205,9 @@ public class cotizacionAfactura extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -216,7 +229,7 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         int fila = -1;
         fila = jtcotizaciones.getSelectedRow();
         if (fila != -1) {
-            String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 0).toString();
+            String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 9).toString();
             dispose();
             RemisionPDF pdfremi = new RemisionPDF();
             pdfremi.verFacturas(idcoti);
@@ -247,6 +260,20 @@ public class cotizacionAfactura extends javax.swing.JDialog {
         fechaInicio.setDate(null);
         fechaFin.setDate(null);
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int fila = -1;
+        fila = jtcotizaciones.getSelectedRow();
+        if (fila != -1) {
+            String idcoti = jtcotizaciones.getValueAt(jtcotizaciones.getSelectedRow(), 9).toString();
+            dispose();
+            RemisionPDF pdfremi = new RemisionPDF();
+            pdfremi.verEmbarques(idcoti);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una factura de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     public static String obtenerFecha(JDateChooser fecha) {
         int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
         int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
@@ -371,6 +398,7 @@ public class cotizacionAfactura extends javax.swing.JDialog {
     private com.toedter.calendar.JDateChooser fechaFin;
     private com.toedter.calendar.JDateChooser fechaInicio;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,10 +431,10 @@ public class cotizacionAfactura extends javax.swing.JDialog {
             rsR = st.executeQuery(myQuery);
             while (rsR.next()) {
 
-                modelo.addRow(new Object[]{rsR.getString("id_cotizacion"), rsR.getString("fecha"),
+                modelo.addRow(new Object[]{rsR.getString("numFactura"), rsR.getString("fecha"),
                     rsR.getString("monto_total"), rsR.getString("usuario_registro"),
                     rsR.getString("cliente"), rsR.getString("costoEnvio"), rsR.getString("factura"),
-                    rsR.getString("fechaPago"), rsR.getString("formaPago")});
+                    rsR.getString("fechaPago"), rsR.getString("formaPago"),rsR.getString("id_cotizacion")});
             }
             sorter = new TableRowSorter<TableModel>(modelo);
             jtcotizaciones.setRowSorter(sorter);
