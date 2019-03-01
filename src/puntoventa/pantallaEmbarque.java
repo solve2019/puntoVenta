@@ -30,21 +30,21 @@ public class pantallaEmbarque extends javax.swing.JFrame {
     public static String idCoti = "";//viene de con RemisionesPDF.java imprimirFactura
 
     public pantallaEmbarque() {
-
+        
         tablaSolicitud = new DefaultTableModel();
         tablaSolicitud.setColumnIdentifiers(new Object[]{"Cajas de P.T.", "Piezas", "Clave de sector salud", "Clave colostomic", "Lote", "Descripcion"});
-
+        
         tablaEmbarque = new DefaultTableModel();
         tablaEmbarque.setColumnIdentifiers(new Object[]{"Caja colectiva", "Piezas", "Pesos Dimensiones", "No. Guia"});
-
+        
         initComponents();
-
+        
         tablaSelecion.getColumnModel().getColumn(0).setMaxWidth(100);
         tablaSelecion.getColumnModel().getColumn(1).setMaxWidth(100);
         tablaSelecion.getColumnModel().getColumn(2).setMaxWidth(100);
         tablaSelecion.getColumnModel().getColumn(3).setMaxWidth(100);
         tablaSelecion.getColumnModel().getColumn(4).setMaxWidth(100);
-
+        
         this.setLocationRelativeTo(null);
         this.setTitle("Guia de Embarque");
     }
@@ -613,31 +613,31 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                     txtDescripcion.getText()});
                                 cancelarSolicitud();
                             } else {
-
+                                
                             }
                         } else {
-
+                            
                         }
                     } else {
-
+                        
                     }
                 } else {
-
+                    
                 }
             } else {
-
+                
             }
         } else {
-
+            
         }
     }
-
+    
     public void agregarFilaTbEmbarque() {
         if (validarCampos(txtCajaColectiva)) {
             if (validarCampos(txtPiezasEmbar)) {
                 if (validarCampos(txtPesosDim)) {
                     if (validarCampos(txtNumguia)) {
-
+                        
                         tablaEmbarque.addRow(new Object[]{
                             txtCajaColectiva.getText(),
                             txtPiezasEmbar.getText(),
@@ -645,20 +645,20 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                             txtNumguia.getText()});
                         cancelarEmbarque();
                     } else {
-
+                        
                     }
-
+                    
                 } else {
-
+                    
                 }
             } else {
-
+                
             }
         } else {
-
+            
         }
     }
-
+    
     public void registrarEmbarque() {
         //validamos  que las tablas tengan minimo un registro
         if (tablaSolicitud.getRowCount() != 0) {
@@ -676,7 +676,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                             conex con2 = new conex();
                             Connection con = con2.getConnection();
                             String sql = "insert into tbembarques(autorizo,entrego,observaciones,descripcionGeneral,fechaEntrega,fechaRegistro,idCotizacion) values(?,?,?,?,?,NOW(),?)";
-
+                            
                             try {
                                 //registramos en embarques
 
@@ -720,9 +720,9 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                     ps.setString(6, descripcion.toUpperCase());
                                     ps.setString(7, idEmbarque);
                                     ps.executeUpdate();
-
+                                    
                                 }
-
+                                
                                 for (int i = 0; i < tablaEmbarque.getRowCount(); i++) {
                                     String cajaColectiva = tablaEmbarque.getValueAt(i, 0) + "";
                                     String piezas = tablaEmbarque.getValueAt(i, 1) + "";
@@ -746,7 +746,8 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                                 limpiarCampos(txtEntrego);
                                 fechaEntrega.setDate(null);
                                 JOptionPane.showMessageDialog(null, "Registro exitoso", "Exito!", JOptionPane.INFORMATION_MESSAGE);
-
+                                //abrimos la el pdf embarques
+                                new RemisionPDF().verEmbarques(idCoti);
                                 ps.close();
                                 con.close();
                                 con2.desconectar();
@@ -754,31 +755,31 @@ public class pantallaEmbarque extends javax.swing.JFrame {
                             } catch (Exception e) {
                                 System.out.println("error  al registar embarque " + e.getMessage());
                             }
-
+                            
                         }
                     }
                 } else {
                     fechaEntrega.requestFocus();
                     JOptionPane.showMessageDialog(null, "Selecciona una fecha", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
-
+                
             } else {
                 JOptionPane.showMessageDialog(null, "No existe ningun registro en la tabla Embarque", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "No existe ningun registro en la tabla Solictud", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-
+        
     }
-
+    
     public void vaciartabla(DefaultTableModel tabla) {
-
+        
         for (int i = 0; i < tabla.getRowCount(); i++) {
             tabla.removeRow(i);
             i -= 1;
         }
     }
-
+    
     public static String obtenerFecha(JDateChooser fecha) {
         int dia = fecha.getCalendar().get(Calendar.DAY_OF_MONTH);
         int mes = fecha.getCalendar().get(Calendar.MONTH) + 1;
@@ -800,18 +801,18 @@ public class pantallaEmbarque extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat(formato);
             String fechaDelDia = String.valueOf(sdf.format(date));
             diaMesSeleccionado = fechaDelDia.substring(0, 2);
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Al menos elija una FECHA DE NACIMIENTO VALIDA ", "Error..!!", JOptionPane.ERROR_MESSAGE);
-
+            
         }
 
         //String fechaDia = diaMesSeleccionado + "-" + mes1 + "-" + año;
         String fechaDia = año + "-" + mes1 + "-" + diaMesSeleccionado;
-
+        
         return fechaDia;
     }
-
+    
     public void cancelarSolicitud() {
         limpiarCampos(txtCaja);
         limpiarCampos(txtPiezasSoli);
@@ -820,22 +821,22 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         limpiarCampos(txtLote);
         limpiarCampos(txtDescripcion);
     }
-
+    
     public void cancelarEmbarque() {
         limpiarCampos(txtCajaColectiva);
         limpiarCampos(txtPiezasEmbar);
         limpiarCampos(txtPesosDim);
         limpiarCampos(txtNumguia);
     }
-
+    
     public void limpiarCampos(JTextField texto) {
         texto.setText("");
     }
-
+    
     public void limpiarCampos(JTextArea texto) {
         texto.setText("");
     }
-
+    
     public boolean validarCampos(JTextField texto) {
         boolean ban = false;
         if (texto.getText().toString().isEmpty()) {
@@ -846,7 +847,7 @@ public class pantallaEmbarque extends javax.swing.JFrame {
         }
         return ban;
     }
-
+    
     public boolean validarCampos2(JTextArea texto) {
         boolean ban = false;
         if (texto.getText().toString().isEmpty()) {

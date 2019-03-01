@@ -271,6 +271,7 @@ public class ConsultarCotizaciones extends javax.swing.JDialog {
             RemisionPDF pdfremi = new RemisionPDF();
             Frame f = JOptionPane.getFrameForComponent(this);
             pdfremi.imprimirFactura(idcoti, f);
+            
 
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una cotización de la Tabla", "Alerta", JOptionPane.ERROR_MESSAGE);

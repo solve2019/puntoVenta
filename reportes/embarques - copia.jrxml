@@ -2,14 +2,13 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="embarques" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1"/>
+	<property name="ireport.y" value="182"/>
 	<parameter name="idCoti" class="java.lang.String"/>
 	<parameter name="cliente" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="telefono" class="java.lang.String"/>
 	<parameter name="correo" class="java.lang.String"/>
 	<parameter name="datos_deposito" class="java.lang.String"/>
-	<parameter name="logo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select numFactura,autorizo,entrego,observaciones,descripcionGeneral,fechaEntrega,fechaRegistro
  , cajasPT,sol.piezas,claveSalud,claveColostomic,lote,descripcion from to_cotizacion as coti inner join tbembarques as tbEm on coti.id_cotizacion= tbEm.idCotizacion
@@ -41,15 +40,6 @@
 				</textElement>
 				<text><![CDATA[GUIA DE EMBARQUE]]></text>
 			</staticText>
-			<image>
-				<reportElement x="5" y="0" width="185" height="33"/>
-				<imageExpression class="java.lang.String"><![CDATA[$P{logo}]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="3" y="0" width="187" height="46"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{logo}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>

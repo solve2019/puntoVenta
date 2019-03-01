@@ -367,7 +367,8 @@ public class RemisionPDF {
         }
 
     }
- public void verFacturas(String idcoti) {
+
+    public void verFacturas(String idcoti) {
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -532,7 +533,7 @@ public class RemisionPDF {
             //JasperPrintManager.printReport(jasperPrint, false);
             //Se lanza el Viewer de Jasper, no termina aplicaci�n al salir
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
-            jviewer.setTitle("Cotizacion");
+            jviewer.setTitle("FACTURA");
             jviewer.setVisible(true);
 
         } catch (Exception j) {
@@ -540,9 +541,10 @@ public class RemisionPDF {
         }
 
     }
+
     public void verEmbarques(String idcoti) {
-       
-        System.out.println("coti " +idcoti);
+
+        System.out.println("coti " + idcoti);
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -594,7 +596,7 @@ public class RemisionPDF {
                     + "A NOMOBRE: COLOSTOMIC SA DE CV\n"
                     + "NUMERO CUENTA: 8175007 SUCURSAL 7003\n"
                     + "CUENTA CLABE: 002540700381750073";
-            String direccion = "",correo="", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
+            String direccion = "", correo = "", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
             try {
 
                 /* String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
@@ -645,14 +647,13 @@ public class RemisionPDF {
                     Statement stCliente = con.getConnection().createStatement();
                     rs = stCliente.executeQuery(myQueryCliente);
                     while (rs.next()) {
-                       
+
                         direccion = rs.getString("direccion");
                         telefono = rs.getString("telefono");
                         rfc = rs.getString("rfc");
                         estado = rs.getString("estado");
                         formaPago = rs.getString("FormaPago");
-                        correo=rs.getString("email");
-                        
+                        correo = rs.getString("email");
 
                     }
 
@@ -672,39 +673,38 @@ public class RemisionPDF {
 
             String datosempresa = datosdeempresa();
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String imagen = new File(".").getAbsolutePath() + "\\imagenes_configurables\\logo_reporte.jpg";
+               String imagen = new File(".").getAbsolutePath() + "\\imagenes_configurables\\logo_reporte.jpg";
             // System.out.println("imagen " +imagen);
-            // parametro.put("logo", imagen);
+            parametro.put("logo", imagen);
             parametro.put("idCoti", idcoti);
             parametro.put("cliente", cliente);
-             parametro.put("direccion", direccion);
-             parametro.put("telefono", telefono);
-             parametro.put("correo", correo);
-             parametro.put("datos_deposito", datosDeposito);
-           
+            parametro.put("direccion", direccion);
+            parametro.put("telefono", telefono);
+            parametro.put("correo", correo);
+            parametro.put("datos_deposito", datosDeposito);
+
             System.out.println("impresion PDF");
-           /* parametro.put("folio", idcoti);
+            /* parametro.put("folio", idcoti);
 
-            parametro.put("datosempresa", datosempresa);
-            parametro.put("subtotal", subtotal);
-            parametro.put("iva", iva + "");
-            parametro.put("total", total + "");
+             parametro.put("datosempresa", datosempresa);
+             parametro.put("subtotal", subtotal);
+             parametro.put("iva", iva + "");
+             parametro.put("total", total + "");
             
-            parametro.put("fechaPago", fechaPago);
-            parametro.put("factura", factura);
-            parametro.put("rfc", rfc);
+             parametro.put("fechaPago", fechaPago);
+             parametro.put("factura", factura);
+             parametro.put("rfc", rfc);
            
-            parametro.put("ciudad", estado);
+             parametro.put("ciudad", estado);
        
-            String arreFecha[] = fechaRegistro.split("-");
-            parametro.put("dia", arreFecha[2]);
-            parametro.put("mes", arreFecha[1]);
-            parametro.put("año", arreFecha[0]);
-            parametro.put("formaPago", formaPago1);
-            parametro.put("costoenvio", costoEnvio);*/
-            
-            //parametro.put("presentacion", folio)
+             String arreFecha[] = fechaRegistro.split("-");
+             parametro.put("dia", arreFecha[2]);
+             parametro.put("mes", arreFecha[1]);
+             parametro.put("año", arreFecha[0]);
+             parametro.put("formaPago", formaPago1);
+             parametro.put("costoenvio", costoEnvio);*/
 
+            //parametro.put("presentacion", folio)
             //parametro.put("folio",folio);            
             System.out.println(folio + " " + subtotal + " " + iva + " " + total + " " + fechaPago + " " + factura);
 
@@ -725,7 +725,8 @@ public class RemisionPDF {
 
     }
 
-    public void imprimirFactura(String idcoti,Frame f) {
+    public boolean imprimirFactura(String idcoti, Frame f) {
+        boolean ban = false;
         java.sql.Connection conn = null;
         String bd = conex.bd;
         String login = conex.login;
@@ -770,17 +771,16 @@ public class RemisionPDF {
 
             double ivas = obteniva();
             System.out.println("modificamos estatus coti");
-            
 
             String folio = "", subtotal = "", cliente = "", costoEnvio = "", factura = "", fechaPago = "";
             conex con = new conex();
-             modificarEstatusCotizacion(con.getConnection(), idcoti);
+            modificarEstatusCotizacion(con.getConnection(), idcoti);
             double iva = 0.0, total = 0.0;
             String datosDeposito = "BANCO BANAMEX\n"
                     + "A NOMOBRE: COLOSTOMIC SA DE CV\n"
                     + "NUMERO CUENTA: 8175007 SUCURSAL 7003\n"
                     + "CUENTA CLABE: 002540700381750073";
-            String direccion = "",numFactura="", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
+            String direccion = "", numFactura = "", telefono = "", rfc = "", estado = "", formaPago = "", fechaRegistro = "", formaPago1 = "";
             try {
 
                 /* String myQuery = "select DATE(fecha) as fecha, monto_total, (monto_total*" + ivas + ") as iva, "
@@ -794,7 +794,7 @@ public class RemisionPDF {
                 Statement st = con.getConnection().createStatement();
                 rsR = st.executeQuery(myQuery);
                 while (rsR.next()) {
-                     numFactura=rsR.getString("numFactura");
+                    numFactura = rsR.getString("numFactura");
                     subtotal = rsR.getString("monto_total");
                     total = Double.parseDouble(rsR.getString("monto_total"));
                     factura = rsR.getString("factura");
@@ -862,7 +862,6 @@ public class RemisionPDF {
             System.out.println("impresion PDF");
             parametro.put("folio", idcoti);
             parametro.put("numFactura", numFactura);
-            
 
             parametro.put("datosempresa", datosempresa);
             parametro.put("subtotal", subtotal);
@@ -889,12 +888,11 @@ public class RemisionPDF {
 //registramos el folio
             if (registrarFolio(con.getConn(), total + "", "0.00", "0.00", "", accesoSistema.nombreuser, formaPago1, accesoSistema.iduser,
                     "0.00", iva + "", "0.00", cliente)) {
-               
-                obtenerProductos(con.getConnection(), idcoti);
 
+                obtenerProductos(con.getConnection(), idcoti);
                 //abrimos la pantalla embarque
                 pantallaEmbarque.idCoti = idcoti;
-                
+
                 pantallaEmbarque em = new pantallaEmbarque();
                 em.setVisible(true);
             } else {
@@ -911,11 +909,13 @@ public class RemisionPDF {
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Factura");
             jviewer.setVisible(true);
+
+            ban = true;
             con.desconectar();
         } catch (Exception j) {
             System.out.println("Mensaje de Error:" + j.getMessage());
         }
-
+        return ban;
     }
 //cesar
 
@@ -928,14 +928,13 @@ public class RemisionPDF {
             PreparedStatement ps = con.prepareStatement(sql1);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                 int conta =0;
-                if (rs.getObject("contador")==null) {
-                    conta=1;
-                }else{
-                     conta=rs.getInt("contador")+1;
+                int conta = 0;
+                if (rs.getObject("contador") == null) {
+                    conta = 1;
+                } else {
+                    conta = rs.getInt("contador") + 1;
                 }
-                    
-               
+
                 System.out.println("con " + con);
                 String sql2 = "update to_cotizacion set estatusFacturado='si',numFactura='" + conta + "' where id_cotizacion='" + idCoti + "'";
                 ps = con.prepareStatement(sql2);
